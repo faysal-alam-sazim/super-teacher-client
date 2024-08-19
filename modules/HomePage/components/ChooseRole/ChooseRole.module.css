@@ -1,0 +1,8 @@
+.role {
+  display: flex;
+  width: 50%;
+  height: 40vh;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid;
+}
