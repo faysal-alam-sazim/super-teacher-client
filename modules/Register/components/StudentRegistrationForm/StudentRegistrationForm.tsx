@@ -13,8 +13,15 @@ import {
 } from "./StudentRegistrationForm.schema";
 
 const StudentRegistrationForm = () => {
-  const { control, handleSubmit, watch } = useForm<TStudentRegistrationFormData>({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    reset,
+  } = useForm<TStudentRegistrationFormData>({
     resolver: studentRegistrationSchemaResolver,
+    mode: "onChange",
   });
   const educationLevel = watch("educationLevel");
 
@@ -37,6 +44,7 @@ const StudentRegistrationForm = () => {
                       label="First Name"
                       placeholder="Enter your first name"
                       required
+                      error={errors.firstName?.message}
                       sx={{ flexGrow: 1 }}
                       styles={{
                         label: { color: "green" },
@@ -53,6 +61,7 @@ const StudentRegistrationForm = () => {
                       label="Last Name"
                       placeholder="Enter your last name"
                       required
+                      error={errors.lastName?.message}
                       sx={{ flexGrow: 1 }}
                       styles={{
                         label: { color: "green" },
@@ -70,6 +79,7 @@ const StudentRegistrationForm = () => {
                       data={["Male", "Female"]}
                       placeholder="Select your gender"
                       required
+                      error={errors.gender?.message}
                       sx={{ flexGrow: 1 }}
                       styles={{
                         label: { color: "green" },
@@ -88,6 +98,7 @@ const StudentRegistrationForm = () => {
                       label="Address"
                       placeholder="Enter your address"
                       required
+                      error={errors.address?.message}
                       sx={{ flexGrow: 1 }}
                       styles={{
                         label: { color: "green" },
@@ -103,6 +114,7 @@ const StudentRegistrationForm = () => {
                       {...field}
                       label="Phone Number"
                       placeholder="Enter your phone number"
+                      error={errors.phoneNumber?.message}
                       required
                       sx={{ flexGrow: 1 }}
                       styles={{
@@ -122,6 +134,7 @@ const StudentRegistrationForm = () => {
                       label="Education Level"
                       data={["School", "College", "University"]}
                       placeholder="Select your education level"
+                      error={errors.educationLevel?.message}
                       required
                       sx={{ flexGrow: 1 }}
                       styles={{
@@ -141,6 +154,7 @@ const StudentRegistrationForm = () => {
                         required
                         data={["Bangla", "English"]}
                         placeholder="Select medium"
+                        error={errors.medium?.message}
                         className={classes["variable-form-width"]}
                         styles={{
                           label: { color: "green" },
@@ -159,6 +173,7 @@ const StudentRegistrationForm = () => {
                         required
                         data={["Bachelors", "Masters"]}
                         placeholder="Select degree"
+                        error={errors.degree?.message}
                         className={classes["variable-form-width"]}
                         styles={{
                           label: { color: "green" },
@@ -180,6 +195,7 @@ const StudentRegistrationForm = () => {
                       required
                       data={["1", "2", "3", "4", "5", "7", "8", "9", "10", "11", "12"]}
                       placeholder="Select class"
+                      error={errors.class?.message}
                       styles={{
                         label: { color: "green" },
                       }}
@@ -204,6 +220,7 @@ const StudentRegistrationForm = () => {
                           "Bachelor in Business Administration",
                         ]}
                         placeholder="Select your degree"
+                        error={errors.degreeName?.message}
                         styles={{
                           label: { color: "green" },
                         }}
@@ -219,6 +236,7 @@ const StudentRegistrationForm = () => {
                         label="Semester/Year"
                         required
                         placeholder="Enter your semester year"
+                        error={errors.semesterYear?.message}
                         styles={{
                           label: { color: "green" },
                         }}
@@ -236,6 +254,7 @@ const StudentRegistrationForm = () => {
                     label="Email"
                     required
                     placeholder="Enter your email"
+                    error={errors.email?.message}
                     styles={{
                       label: { color: "green" },
                     }}
@@ -253,6 +272,7 @@ const StudentRegistrationForm = () => {
                       label="Password"
                       placeholder="Enter your password"
                       required
+                      error={errors.password?.message}
                       sx={{ flexGrow: 1 }}
                       styles={{ label: { color: "green" } }}
                     />
@@ -267,6 +287,7 @@ const StudentRegistrationForm = () => {
                       label="Confirm Password"
                       placeholder="Confirm password"
                       required
+                      error={errors.confirmPassword?.message}
                       sx={{ flexGrow: 1 }}
                       styles={{ label: { color: "green" } }}
                     />
@@ -275,7 +296,9 @@ const StudentRegistrationForm = () => {
               </Box>
             </Flex>
             <Flex justify={"space-around"} align={"center"} my={24}>
-              <Button bg={"#640D6B"}>Reset</Button>
+              <Button bg={"#640D6B"} onClick={() => reset()}>
+                Reset
+              </Button>
               <SubmitButton />
             </Flex>
             <Box sx={{ fontSize: "14px" }}>
