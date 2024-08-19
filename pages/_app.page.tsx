@@ -21,7 +21,19 @@ export default function App(props: TCustomAppProps) {
 
   return (
     <ReduxProvider store={store}>
-      <MantineProvider withGlobalStyles withNormalizeCSS theme={appTheme}>
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{
+          ...appTheme,
+          globalStyles: (theme) => ({
+            body: {
+              backgroundColor: "#00224D",
+              color: theme.white,
+            },
+          }),
+        }}
+      >
         <ModalsProvider>
           <AppInitializer>
             <Notifications />
