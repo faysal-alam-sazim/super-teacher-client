@@ -1,0 +1,29 @@
+/* StudentRegistrationForm.css */
+.form-container {
+  width: 50%;
+  padding: 12px;
+}
+
+.input-flex {
+  display: flex;
+  gap: 12px;
+}
+
+.variable-form-width {
+  flex-grow: 1;
+  width: 60%;
+}
+
+@media (max-width: 768px) {
+  .form-container {
+    width: 100%;
+  }
+
+  .input-flex {
+    flex-direction: column;
+  }
+  .variable-form-width {
+    flex-grow: 1;
+    width: 100%;
+  }
+}
