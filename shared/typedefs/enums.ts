@@ -25,3 +25,8 @@ export enum EDegree {
   BACHELORS = "Bachelors",
   MASTERS = "Masters",
 }
+
+export enum ERole {
+  STUDENT = "Student",
+  TEACHER = "Teacher",
+}
