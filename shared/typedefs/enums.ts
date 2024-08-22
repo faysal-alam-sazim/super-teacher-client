@@ -30,3 +30,10 @@ export enum ERole {
   STUDENT = "Student",
   TEACHER = "Teacher",
 }
+
+export enum EHighestEducationLevel {
+  BACHELORS = "Bachelors",
+  MASTERS = "Masters",
+  DIPLOMA = "Diploma",
+  PHD = "PhD",
+}
