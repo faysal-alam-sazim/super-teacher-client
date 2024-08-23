@@ -1,4 +1,4 @@
-import { EDegree, EEducationLevel, EGender, EMedium, ERole } from "./enums";
+import { EDegree, EEducationLevel, EGender, EHighestEducationLevel, EMedium, ERole } from "./enums";
 
 export interface IExample {
   id: string;
@@ -15,6 +15,13 @@ export interface IStudentDto {
   semesterYear?: string;
 }
 
+export interface ITeacherDto {
+  code: string;
+  majorSubject: string;
+  highestEducationLevel: EHighestEducationLevel;
+  subjectsToTeach: Array<string>;
+}
+
 export interface IUserDto {
   id?: number;
   firstName: string;
@@ -27,4 +34,8 @@ export interface IUserDto {
 
 export interface ICreateStudentDto extends IUserDto {
   studentInput: IStudentDto;
+}
+
+export interface ICreateTeacherDto extends IUserDto {
+  teacherInput: ITeacherDto;
 }

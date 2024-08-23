@@ -12,9 +12,9 @@ export type TApiResponse<TData> = {
 export type TApiErrorResponse = {
   status: number;
   data: {
-    statusCode: number;
     message: string[] | string;
-    error: string;
+    error?: string;
+    attemptRemaining?: number;
   };
 };
 

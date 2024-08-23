@@ -21,6 +21,14 @@ export function getApiErrorStatusCode(err: unknown) {
   return err.status;
 }
 
+export function getApiErrorAttemptRemaining(err: unknown) {
+  if (!isApiErrorMessage(err)) return 3;
+
+  const attemptRemaining = err.data?.attemptRemaining;
+
+  return attemptRemaining;
+}
+
 export function isApiErrorMessage(err: unknown): err is TApiErrorResponse {
   return (
     typeof err === "object" &&
@@ -28,7 +36,6 @@ export function isApiErrorMessage(err: unknown): err is TApiErrorResponse {
     "status" in err &&
     "data" in err &&
     typeof err.data === "object" &&
-    err.data !== null &&
-    "statusCode" in err.data
+    err.data !== null
   );
 }
