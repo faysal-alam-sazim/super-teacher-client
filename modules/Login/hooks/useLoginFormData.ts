@@ -1,12 +1,43 @@
+import { useState } from "react";
+
+import { showNotification } from "@mantine/notifications";
+
+import {
+  ACCESS_TOKEN_LOCAL_STORAGE_KEY,
+  NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS,
+} from "@/shared/constants/app.constants";
+import { useAppDispatch } from "@/shared/redux/hooks";
+import { setUser } from "@/shared/redux/reducers/user.reducer";
+import { useLoginMutation } from "@/shared/redux/rtk-apis/auth/auth.api";
+import { parseApiErrorMessage } from "@/shared/utils/errors";
+import { setInLocalStorage } from "@/shared/utils/localStorage";
+
 import { TLoginFormData } from "../components/LoginForm.types";
 
 const useLoginFormData = () => {
-  const onSubmit = (data: TLoginFormData) => {
-    // TO DO: will remove it later after integrating api call
-    console.log(data);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const dispatch = useAppDispatch();
+  const [login] = useLoginMutation();
+
+  const onSubmit = async (data: TLoginFormData) => {
+    setIsSubmitting(true);
+    try {
+      const res = await login(data).unwrap();
+      setInLocalStorage(res.accessToken, ACCESS_TOKEN_LOCAL_STORAGE_KEY);
+      dispatch(setUser(res.user));
+    } catch (error) {
+      showNotification({
+        title: "Login Unsuccessfull",
+        message: parseApiErrorMessage(error),
+        autoClose: NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS,
+        color: "red",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  return { onSubmit };
+  return { onSubmit, isSubmitting };
 };
 
 export default useLoginFormData;

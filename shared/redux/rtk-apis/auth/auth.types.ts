@@ -1,3 +1,5 @@
+import { ERole } from "@/shared/typedefs";
+
 export type TLoginRequestFields = {
   email: string;
   password: string;
@@ -10,9 +12,9 @@ export enum EUserRole {
 
 export type TTokenizedUser = {
   id: number;
-  claim: EUserRole;
+  claim: ERole;
   email: string;
-  claimId: number;
+  userProfileId: number;
 };
 
 export type TLoginResponse = {
