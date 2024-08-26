@@ -22,7 +22,7 @@ const ChooseRole = ({ opened, close }: TChooseRoleProps) => {
             <Text fw={"bold"}>Student</Text>
           </Box>
 
-          <Box className={classes["role"]}>
+          <Box className={classes["role"]} onClick={() => router.push("register/teacher")}>
             <LuGraduationCap />
             <Text fw={"bold"}>Teacher</Text>
           </Box>
