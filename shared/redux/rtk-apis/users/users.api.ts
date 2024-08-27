@@ -12,7 +12,7 @@ const usersApi = projectApi.injectEndpoints({
 
     registerStudent: builder.mutation<ICreateStudentDto, ICreateStudentDto>({
       query: (newStudent) => ({
-        url: "users/student",
+        url: "users/signup/student",
         method: "POST",
         body: newStudent,
       }),
@@ -20,7 +20,7 @@ const usersApi = projectApi.injectEndpoints({
 
     registerTeacher: builder.mutation<ICreateTeacherDto, ICreateTeacherDto>({
       query: (newTeacher) => ({
-        url: "users/teacher",
+        url: "users/signup/teacher",
         method: "POST",
         body: newTeacher,
       }),

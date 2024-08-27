@@ -2,21 +2,22 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 import { TRootState } from "@/shared/redux/store";
+import { ERole } from "@/shared/typedefs";
 
-import { EUserRole, TTokenizedUser } from "../rtk-apis/auth/auth.types";
+import { TTokenizedUser } from "../rtk-apis/auth/auth.types";
 
 interface IAuthenticatedUser {
   userId: number | null;
   email: string | null;
-  claim: EUserRole | null;
-  claimId: number | null;
+  claim: ERole | null;
+  userProfileId: number | null;
 }
 
 const initialState: IAuthenticatedUser = {
   userId: 1,
   email: null,
-  claimId: null,
   claim: null,
+  userProfileId: null,
 };
 
 export const authenticatedUserSlice = createSlice({
@@ -25,16 +26,16 @@ export const authenticatedUserSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<TTokenizedUser>) => {
       state.email = action.payload.email;
-      state.claimId = action.payload.claimId;
-      state.claim = action.payload.claim as EUserRole;
+      state.claim = action.payload.claim as ERole;
       state.userId = action.payload.id;
+      state.userProfileId = action.payload.userProfileId;
     },
 
     clearUser: (state) => {
       state.email = null;
-      state.claimId = null;
       state.claim = null;
       state.userId = null;
+      state.userProfileId = null;
     },
   },
 });
