@@ -9,7 +9,6 @@ import { getApiErrorAttemptRemaining, parseApiErrorMessage } from "@/shared/util
 
 import { TTeacherRegistrationFormData } from "../components/TeacherRegistrationForm/TeacherRegistrationForm.types";
 
-
 const useTeacherRegistration = () => {
   const [registerTeacher] = useRegisterTeacherMutation();
   const dispatch = useDispatch();

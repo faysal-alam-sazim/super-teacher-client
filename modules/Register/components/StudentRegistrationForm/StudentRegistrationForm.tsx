@@ -1,5 +1,7 @@
 import React from "react";
 
+import Link from "next/link";
+
 import { Box, Button, Flex, PasswordInput, Select, Text, TextInput, Title } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 
@@ -284,7 +286,10 @@ const StudentRegistrationForm = () => {
           </Flex>
           <Box sx={{ fontSize: "14px" }}>
             <Text ta={"center"} color="green">
-              Already have an account? <span style={{ color: "white" }}>Login</span>
+              Already have an account?{" "}
+              <Link href={"/login"}>
+                <span style={{ color: "white" }}>Login</span>
+              </Link>
             </Text>
             <Text ta={"center"}>Register</Text>
           </Box>
