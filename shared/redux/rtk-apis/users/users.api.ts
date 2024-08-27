@@ -1,4 +1,4 @@
-import { ICreateStudentDto, TApiResponse } from "@/shared/typedefs";
+import { ICreateStudentDto, ICreateTeacherDto, TApiResponse } from "@/shared/typedefs";
 
 import projectApi from "../api.config";
 import { TTokenizedUser } from "../auth/auth.types";
@@ -17,8 +17,21 @@ const usersApi = projectApi.injectEndpoints({
         body: newStudent,
       }),
     }),
+
+    registerTeacher: builder.mutation<ICreateTeacherDto, ICreateTeacherDto>({
+      query: (newTeacher) => ({
+        url: "users/teacher",
+        method: "POST",
+        body: newTeacher,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useMeQuery, useLazyMeQuery, useRegisterStudentMutation } = usersApi;
+export const {
+  useMeQuery,
+  useLazyMeQuery,
+  useRegisterStudentMutation,
+  useRegisterTeacherMutation,
+} = usersApi;

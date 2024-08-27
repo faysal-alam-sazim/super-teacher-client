@@ -18,14 +18,11 @@ import SubmitButton from "@/shared/components/SubmitButton";
 import { TRootState } from "@/shared/redux/store";
 import { EGender, EHighestEducationLevel } from "@/shared/typedefs";
 
-
 import useTeacherRegistration from "../../hooks/useTeacherRegistration";
 import { SUBJECTS } from "./TeacherRegistrationForm.constants";
 import classes from "./TeacherRegistrationForm.module.css";
 import { teacherRegistrationSchemaResolver } from "./TeacherRegistrationForm.schema";
 import { TTeacherRegistrationFormData } from "./TeacherRegistrationForm.types";
-
-
 
 const TeacherRegistrationForm = () => {
   const {
@@ -63,7 +60,9 @@ const TeacherRegistrationForm = () => {
               )}
             />
             <Text size={"xs"} mb={6}>
-              Attemps remaining: {attemptCounter}
+              {attemptCounter > 0
+                ? `Attemps remaining: ${attemptCounter}`
+                : "No attempts remaining"}
             </Text>
 
             <Box className={classes["input-grid"]}>

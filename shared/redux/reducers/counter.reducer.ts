@@ -12,8 +12,8 @@ export const attemptCounterSlice = createSlice({
   name: "attempCounter",
   initialState,
   reducers: {
-    setCounter: (state) => {
-      state.counter -= 1;
+    setCounter: (state, action) => {
+      state.counter = action.payload;
     },
 
     resetCounter: (state) => {
