@@ -23,7 +23,7 @@ const useLoginFormData = () => {
     setIsSubmitting(true);
     try {
       const res = await login(data).unwrap();
-      setInLocalStorage(res.accessToken, ACCESS_TOKEN_LOCAL_STORAGE_KEY);
+      setInLocalStorage(ACCESS_TOKEN_LOCAL_STORAGE_KEY, res.accessToken);
       dispatch(setUser(res.user));
     } catch (error) {
       showNotification({
