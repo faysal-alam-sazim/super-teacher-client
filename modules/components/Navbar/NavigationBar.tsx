@@ -8,8 +8,9 @@ import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer"
 import { ERole } from "@/shared/typedefs";
 
 import classes from "./NavigationBar.module.css";
+import { INavigationBarProps } from "./NavigationBar.types";
 
-const NavigationBar = () => {
+const NavigationBar = ({ open }: INavigationBarProps) => {
   const user = useAppSelector(authenticatedUserSelector);
 
   return (
@@ -17,7 +18,7 @@ const NavigationBar = () => {
       <Text>Superteacher</Text>
       <Flex justify={"center"} align={"center"} gap={15}>
         <Text className={classes["dashboard"]}>Dashboard</Text>
-        {user?.claim === ERole.TEACHER && <FaPlus />}
+        {user?.claim === ERole.TEACHER ? <FaPlus onClick={open} /> : null}
         <Button variant="outline" c={"white"} sx={{ borderColor: "white" }}>
           {user?.firstName}
         </Button>
