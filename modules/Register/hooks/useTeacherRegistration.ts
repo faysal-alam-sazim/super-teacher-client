@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+
 import { showNotification } from "@mantine/notifications";
 import { useDispatch } from "react-redux";
 
@@ -12,6 +14,7 @@ import { TTeacherRegistrationFormData } from "../components/TeacherRegistrationF
 const useTeacherRegistration = () => {
   const [registerTeacher] = useRegisterTeacherMutation();
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const onSubmit = async (data: TTeacherRegistrationFormData) => {
     const newTeacher: ICreateTeacherDto = {
@@ -32,6 +35,7 @@ const useTeacherRegistration = () => {
     try {
       const res = await registerTeacher(newTeacher).unwrap();
       if (res) {
+        router.push("/dashboard");
         showNotification({
           title: "Success",
           message: "Registered Successfully",

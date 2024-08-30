@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { useRouter } from "next/router";
+
 import { showNotification } from "@mantine/notifications";
 
 import {
@@ -18,6 +20,7 @@ const useLoginFormData = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useAppDispatch();
   const [login] = useLoginMutation();
+  const router = useRouter();
 
   const onSubmit = async (data: TLoginFormData) => {
     setIsSubmitting(true);
@@ -25,6 +28,7 @@ const useLoginFormData = () => {
       const res = await login(data).unwrap();
       setInLocalStorage(ACCESS_TOKEN_LOCAL_STORAGE_KEY, res.accessToken);
       dispatch(setUser(res.user));
+      router.push("/dashboard");
     } catch (error) {
       showNotification({
         title: "Login Unsuccessfull",

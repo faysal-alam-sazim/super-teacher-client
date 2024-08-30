@@ -1,3 +1,5 @@
+import { useRouter } from "next/router";
+
 import { showNotification } from "@mantine/notifications";
 
 import { NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS } from "@/shared/constants/app.constants";
@@ -9,6 +11,7 @@ import { TStudentRegistrationFormData } from "../components/StudentRegistrationF
 
 const useStudentRegistration = () => {
   const [registerStudent] = useRegisterStudentMutation();
+  const router = useRouter();
 
   const onSubmit = async (data: TStudentRegistrationFormData) => {
     const newStudent: ICreateStudentDto = {
@@ -33,6 +36,7 @@ const useStudentRegistration = () => {
     try {
       const res = await registerStudent(newStudent).unwrap();
       if (res) {
+        router.push("/dashboard");
         showNotification({
           title: "Success",
           message: "Created Successfully",

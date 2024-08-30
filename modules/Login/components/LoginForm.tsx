@@ -3,7 +3,6 @@ import React from "react";
 import { Box, Group, PasswordInput, SimpleGrid, Text, TextInput } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 
-
 import SubmitButton from "@/shared/components/SubmitButton";
 
 import useLoginFormData from "../hooks/useLoginFormData";
