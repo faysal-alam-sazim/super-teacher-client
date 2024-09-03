@@ -5,11 +5,6 @@ export type TLoginRequestFields = {
   password: string;
 };
 
-export enum EUserRole {
-  ADMIN = "ADMIN",
-  SUPER_USER = "SUPER_USER",
-}
-
 export type TTokenizedUser = {
   id: number;
   claim: ERole;
