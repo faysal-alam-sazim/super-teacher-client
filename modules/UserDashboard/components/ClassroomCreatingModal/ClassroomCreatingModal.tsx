@@ -8,8 +8,10 @@ import { SUBJECTS } from "@/modules/Register/components/TeacherRegistrationForm/
 
 import useClassroomCreation from "../../hooks/useClassroomCreation";
 import { createClassroomFormResolver } from "./ClassroomCreatingForm.schema";
-import { TCreateClassroomFormData } from "./ClassroomCreatingForm.types";
-import { ICreateClassroomModalProps } from "./ClassroomCreatingModal.types";
+import {
+  ICreateClassroomModalProps,
+  TCreateClassroomFormData,
+} from "./ClassroomCreatingModal.types";
 
 const ClassroomCreatingModal = ({ opened, close }: ICreateClassroomModalProps) => {
   const {
