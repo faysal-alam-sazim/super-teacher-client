@@ -9,7 +9,7 @@ export type TTokenizedUser = {
   id: number;
   claim: ERole;
   email: string;
-  userProfileId: number;
+  firstName: string;
 };
 
 export type TLoginResponse = {

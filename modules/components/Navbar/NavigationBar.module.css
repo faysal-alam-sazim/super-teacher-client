@@ -1,0 +1,13 @@
+.navlinks {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media (max-width: 768px) {
+  .dashboard {
+    display: none;
+  }
+}

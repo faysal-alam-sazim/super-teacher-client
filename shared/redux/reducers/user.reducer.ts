@@ -10,14 +10,14 @@ interface IAuthenticatedUser {
   userId: number | null;
   email: string | null;
   claim: ERole | null;
-  userProfileId: number | null;
+  firstName: string | null;
 }
 
 const initialState: IAuthenticatedUser = {
   userId: 1,
   email: null,
   claim: null,
-  userProfileId: null,
+  firstName: null,
 };
 
 export const authenticatedUserSlice = createSlice({
@@ -28,14 +28,14 @@ export const authenticatedUserSlice = createSlice({
       state.email = action.payload.email;
       state.claim = action.payload.claim as ERole;
       state.userId = action.payload.id;
-      state.userProfileId = action.payload.userProfileId;
+      state.firstName = action.payload.firstName;
     },
 
     clearUser: (state) => {
       state.email = null;
       state.claim = null;
       state.userId = null;
-      state.userProfileId = null;
+      state.firstName = null;
     },
   },
 });
@@ -43,5 +43,7 @@ export const authenticatedUserSlice = createSlice({
 export const { setUser, clearUser } = authenticatedUserSlice.actions;
 
 export const selectUserId = (state: TRootState) => state.authenticatedUser.userId;
+
+export const authenticatedUserSelector = (state: TRootState) => state.authenticatedUser;
 
 export default authenticatedUserSlice.reducer;
