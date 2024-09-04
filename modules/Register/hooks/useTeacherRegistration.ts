@@ -1,19 +1,24 @@
 import { useRouter } from "next/router";
 
 import { showNotification } from "@mantine/notifications";
-import { useDispatch } from "react-redux";
 
-import { NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS } from "@/shared/constants/app.constants";
+import {
+  ACCESS_TOKEN_LOCAL_STORAGE_KEY,
+  NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS,
+} from "@/shared/constants/app.constants";
+import { useAppDispatch } from "@/shared/redux/hooks";
 import { setCounter } from "@/shared/redux/reducers/counter.reducer";
+import { setUser } from "@/shared/redux/reducers/user.reducer";
 import { useRegisterTeacherMutation } from "@/shared/redux/rtk-apis/users/users.api";
 import { ERole, ICreateTeacherDto } from "@/shared/typedefs";
 import { getApiErrorAttemptRemaining, parseApiErrorMessage } from "@/shared/utils/errors";
+import { setInLocalStorage } from "@/shared/utils/localStorage";
 
 import { TTeacherRegistrationFormData } from "../components/TeacherRegistrationForm/TeacherRegistrationForm.types";
 
 const useTeacherRegistration = () => {
   const [registerTeacher] = useRegisterTeacherMutation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const onSubmit = async (data: TTeacherRegistrationFormData) => {
@@ -35,6 +40,8 @@ const useTeacherRegistration = () => {
     try {
       const res = await registerTeacher(newTeacher).unwrap();
       if (res) {
+        setInLocalStorage(ACCESS_TOKEN_LOCAL_STORAGE_KEY, res.accessToken);
+        dispatch(setUser(res.user));
         router.push("/dashboard");
         showNotification({
           title: "Success",
