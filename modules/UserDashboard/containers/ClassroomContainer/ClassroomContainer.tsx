@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import { useRouter } from "next/router";
+
 import { Box, Flex } from "@mantine/core";
 
 import { useAppSelector } from "@/shared/redux/hooks";
@@ -16,24 +18,29 @@ const ClassroomContainer = ({ open }: IClassroomContainerProps) => {
   const { data, isSuccess } = useGetClassroomsQuery();
   const [classrooms, setClassrooms] = useState<TClassroom[]>([]);
 
+  const router = useRouter();
+
   useEffect(() => {
     if (isSuccess) {
-      setClassrooms(data.data);
+      setClassrooms(data);
     }
   }, [data, isSuccess]);
+
+  console.log(data);
 
   return (
     <Box mih={"91vh"} pos={"relative"}>
       {isSuccess && classrooms.length > 0 ? (
         <Flex justify={"center"} align={"baseline"} gap={32} wrap={"wrap"} my={20}>
           {classrooms.map((classroom) => (
-            <ClassroomCard
-              key={classroom.id}
-              title={classroom.title}
-              subject={classroom.subject}
-              days={classroom.days}
-              classTime={classroom.classTime}
-            />
+            <Box key={classroom.id} onClick={() => router.push(`classrooms/${classroom.id}`)}>
+              <ClassroomCard
+                title={classroom.title}
+                subject={classroom.subject}
+                days={classroom.days}
+                classTime={classroom.classTime}
+              />
+            </Box>
           ))}
         </Flex>
       ) : (
