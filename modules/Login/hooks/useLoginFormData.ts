@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 
 import { showNotification } from "@mantine/notifications";
 
+import { useSessionContext } from "@/shared/components/wrappers/AppInitializer/AppInitializerContext";
 import {
   ACCESS_TOKEN_LOCAL_STORAGE_KEY,
   NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS,
@@ -18,6 +19,7 @@ import { TLoginFormData } from "../components/LoginForm.types";
 
 const useLoginFormData = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { getMe } = useSessionContext();
   const dispatch = useAppDispatch();
   const [login] = useLoginMutation();
   const router = useRouter();
@@ -28,6 +30,7 @@ const useLoginFormData = () => {
       const res = await login(data).unwrap();
       setInLocalStorage(ACCESS_TOKEN_LOCAL_STORAGE_KEY, res.accessToken);
       dispatch(setUser(res.user));
+      await getMe().unwrap();
       router.push("/dashboard");
     } catch (error) {
       showNotification({
