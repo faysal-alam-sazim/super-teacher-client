@@ -3,6 +3,7 @@ import { ICreateStudentDto, ICreateTeacherDto, TApiResponse } from "@/shared/typ
 import projectApi from "../api.config";
 import { TLoginResponse, TTokenizedUser } from "../auth/auth.types";
 import { TUser } from "./users.types";
+import { TUser } from "./users.types";
 
 const usersApi = projectApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,7 +13,7 @@ const usersApi = projectApi.injectEndpoints({
     }),
 
     getStudents: builder.query<TUser[], void>({
-      query: () => "students",
+      query: () => "users/students",
       transformResponse: (response: TApiResponse<TUser[]>) => response.data,
     }),
 
@@ -42,5 +43,6 @@ export const {
   useLazyMeQuery,
   useRegisterStudentMutation,
   useRegisterTeacherMutation,
+  useGetStudentsQuery,
   useGetStudentsQuery,
 } = usersApi;

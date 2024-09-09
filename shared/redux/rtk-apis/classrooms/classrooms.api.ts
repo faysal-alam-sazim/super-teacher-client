@@ -3,7 +3,7 @@ import { TApiResponse } from "@/shared/typedefs";
 
 import projectApi from "../api.config";
 import { TStudent } from "../users/users.types";
-import { TClassroom } from "./classrooms.types";
+import { TClassroom, TEnrollInfo, TEnrollMentInfo } from "./classrooms.types";
 
 const classroomsApi = projectApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -34,6 +34,25 @@ const classroomsApi = projectApi.injectEndpoints({
       transformResponse: (response: TApiResponse<TClassroom>) => response.data,
       invalidatesTags: ["Classrooms"],
     }),
+
+    enrollStudent: builder.mutation<TEnrollMentInfo, TEnrollInfo>({
+      query: (enrollmentInfo) => ({
+        url: "classrooms/students",
+        method: "POST",
+        body: enrollmentInfo,
+      }),
+      invalidatesTags: ["EnrolledStudents"],
+      transformResponse: (response: TApiResponse<TEnrollMentInfo>) => response.data,
+    }),
+
+    removeStudent: builder.mutation<TEnrollMentInfo, TEnrollInfo>({
+      query: (removeEnrollmentInfo) => ({
+        url: "classrooms/students",
+        method: "DELETE",
+        body: removeEnrollmentInfo,
+      }),
+      invalidatesTags: ["EnrolledStudents"],
+    }),
   }),
   overrideExisting: false,
 });
@@ -43,4 +62,6 @@ export const {
   useCreateClassroomMutation,
   useGetClassroomByIdQuery,
   useGetEnrolledStudentsQuery,
+  useEnrollStudentMutation,
+  useRemoveStudentMutation,
 } = classroomsApi;

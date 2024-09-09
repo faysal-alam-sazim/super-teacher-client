@@ -1,4 +1,4 @@
-import { TTeacher } from "../users/users.types";
+import { TStudent, TTeacher } from "../users/users.types";
 
 export type TClassroom = {
   id: number;
@@ -7,4 +7,15 @@ export type TClassroom = {
   classTime: Date;
   days: string[];
   teacher?: TTeacher;
+};
+
+export type TEnrollInfo = {
+  classroomId: number;
+  studentId: number;
+};
+
+export type TEnrollMentInfo = {
+  id: number;
+  classroomId: TClassroom;
+  studentId: TStudent;
 };
