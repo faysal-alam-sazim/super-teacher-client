@@ -14,7 +14,6 @@ const EnrollStudentModalForm = ({ opened, close, classroomId }: TEnrollStudentMo
 
   const handleSubmit = () => {
     if (selectedStudent) {
-      console.log(selectedStudent);
       addStudent(Number(classroomId), Number(selectedStudent));
       close();
     }

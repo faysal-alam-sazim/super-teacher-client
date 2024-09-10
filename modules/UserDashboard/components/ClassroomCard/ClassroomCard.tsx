@@ -3,10 +3,11 @@ import React from "react";
 import { Card, Image, Text, Badge, Flex } from "@mantine/core";
 import dayjs from "dayjs";
 
+import classes from "./ClassroomCard.module.css";
 import { TClassroomCardProps } from "./ClassroomCard.types";
 
 const ClassroomCard = ({ title, subject, days, classTime }: TClassroomCardProps) => (
-  <Card shadow="sm" padding="lg" radius="md" withBorder w={"350px"}>
+  <Card shadow="sm" padding="lg" radius="md" withBorder w={"350px"} className={classes["card"]}>
     <Card.Section>
       <Image src="bg_classroom.png" height={160} alt="Norway" />
     </Card.Section>
