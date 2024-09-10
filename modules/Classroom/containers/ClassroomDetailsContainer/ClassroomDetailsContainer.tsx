@@ -4,11 +4,9 @@ import { useRouter } from "next/router";
 
 import { Tabs, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { showNotification } from "@mantine/notifications";
 
 import NavigationBar from "@/modules/components/Navbar/NavigationBar";
 import ClassroomCreatingModal from "@/modules/UserDashboard/components/ClassroomCreatingModal/ClassroomCreatingModal";
-import { NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS } from "@/shared/constants/app.constants";
 import {
   useGetClassroomByIdQuery,
   useGetEnrolledStudentsQuery,
@@ -35,14 +33,7 @@ const ClassroomDetailsContainer = () => {
     useGetEnrolledStudentsQuery(classroomId as string);
 
   useEffect(() => {
-    if (isClassroomFetchError || isEnrolledStudentFetchError) {
-      showNotification({
-        title: "Error",
-        message: "Error Fetching Data!",
-        autoClose: NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS,
-        color: "red",
-      });
-    } else {
+    if (!isClassroomFetchError && !isEnrolledStudentFetchError) {
       setClassroom(fetchedClassroom);
       setEnrolledStudents(fetchedEnrolledStudents);
     }
@@ -90,7 +81,7 @@ const ClassroomDetailsContainer = () => {
 
         <Tabs.Panel value="people">
           <Teacher teacher={classroom?.teacher} />
-          <Students students={enrolledStudents} />
+          <Students students={enrolledStudents} classroomId={classroomId as string} />
         </Tabs.Panel>
       </Tabs>
     </>

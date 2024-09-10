@@ -1,15 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Flex, Text, Title } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { FaRegPlusSquare, FaRegTrashAlt } from "react-icons/fa";
 
 import { useAppSelector } from "@/shared/redux/hooks";
 import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
+import { TStudent } from "@/shared/redux/rtk-apis/users/users.types";
+import { ERole } from "@/shared/typedefs";
 
+import EnrollStudentModalForm from "../EnrollStudentModalForm/EnrollStudentModalForm";
+import RemoveConfirmationModal from "../RemoveConfirmationModal/RemoveConfirmationModal";
 import { IStudentsProps } from "./Students.types";
 
-const Students = ({ students }: IStudentsProps) => {
-  const { email } = useAppSelector(authenticatedUserSelector);
+const Students = ({ students, classroomId }: IStudentsProps) => {
+  const { email, claim } = useAppSelector(authenticatedUserSelector);
+
+  const [enrollOpened, { open: openEnrollModal, close: closeEnrollModal }] = useDisclosure(false);
+  const [removeOpened, { open: openRemoveModal, close: closeRemoveModal }] = useDisclosure(false);
+  const [studentToRemove, setStudentToRemove] = useState<TStudent | null>(null);
+
+  const handleRemoveStudent = (student: TStudent) => {
+    setStudentToRemove(student);
+    openRemoveModal();
+  };
 
   return (
     <>
@@ -22,7 +36,9 @@ const Students = ({ students }: IStudentsProps) => {
         pb={8}
       >
         <Title order={3}>Students</Title>
-        <FaRegPlusSquare color="green" />
+        {claim === ERole.TEACHER ? (
+          <FaRegPlusSquare color="green" onClick={openEnrollModal} />
+        ) : null}
       </Flex>
       {students?.map((student) => (
         <Flex key={student.id} justify={"space-between"}>
@@ -34,10 +50,24 @@ const Students = ({ students }: IStudentsProps) => {
             <Text fz={"sm"} mr={12}>
               {student.user?.email}{" "}
             </Text>
-            <FaRegTrashAlt color="purple" />
+            {claim === ERole.TEACHER ? (
+              <FaRegTrashAlt color="purple" onClick={() => handleRemoveStudent(student)} />
+            ) : null}
           </Flex>
+          <RemoveConfirmationModal
+            opened={removeOpened}
+            close={closeRemoveModal}
+            classroomId={Number(classroomId)}
+            student={studentToRemove}
+            setStudentToRemove={setStudentToRemove}
+          />
         </Flex>
       ))}
+      <EnrollStudentModalForm
+        close={closeEnrollModal}
+        opened={enrollOpened}
+        classroomId={classroomId}
+      />
     </>
   );
 };

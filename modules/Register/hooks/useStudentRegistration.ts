@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 
 import { showNotification } from "@mantine/notifications";
 
+import { useSessionContext } from "@/shared/components/wrappers/AppInitializer/AppInitializerContext";
 import {
   ACCESS_TOKEN_LOCAL_STORAGE_KEY,
   NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS,
@@ -18,6 +19,7 @@ import { TStudentRegistrationFormData } from "../components/StudentRegistrationF
 const useStudentRegistration = () => {
   const [registerStudent] = useRegisterStudentMutation();
   const dispatch = useAppDispatch();
+  const { getMe } = useSessionContext();
   const router = useRouter();
 
   const onSubmit = async (data: TStudentRegistrationFormData) => {
@@ -45,6 +47,7 @@ const useStudentRegistration = () => {
       if (res) {
         setInLocalStorage(ACCESS_TOKEN_LOCAL_STORAGE_KEY, res.accessToken);
         dispatch(setUser(res.user));
+        await getMe().unwrap();
         router.push("/dashboard");
         showNotification({
           title: "Success",
