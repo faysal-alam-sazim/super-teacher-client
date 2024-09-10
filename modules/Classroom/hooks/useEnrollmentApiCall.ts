@@ -13,7 +13,7 @@ const useEnrollmentApiCall = () => {
 
   const addStudent = async (classroomId: number, studentId: number) => {
     try {
-      await enrollStudent({ classroomId, studentId }).unwrap();
+      await enrollStudent({ id: classroomId, enrollmentInfo: { studentId } }).unwrap();
       showNotification({
         title: "Success",
         message: "Student Enrolled Successfully",
@@ -34,7 +34,7 @@ const useEnrollmentApiCall = () => {
 
   const removeStudent = async (classroomId: number, studentId: number) => {
     try {
-      await deleteStudent({ classroomId, studentId }).unwrap();
+      await deleteStudent({ id: classroomId, removeEnrollmentInfo: { studentId } }).unwrap();
       showNotification({
         title: "Success",
         message: "Student Removed Successfully",

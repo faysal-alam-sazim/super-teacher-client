@@ -10,7 +10,6 @@ export type TClassroom = {
 };
 
 export type TEnrollInfo = {
-  classroomId: number;
   studentId: number;
 };
 
