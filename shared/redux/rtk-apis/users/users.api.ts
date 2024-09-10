@@ -2,12 +2,18 @@ import { ICreateStudentDto, ICreateTeacherDto, TApiResponse } from "@/shared/typ
 
 import projectApi from "../api.config";
 import { TLoginResponse, TTokenizedUser } from "../auth/auth.types";
+import { TUser } from "./users.types";
 
 const usersApi = projectApi.injectEndpoints({
   endpoints: (builder) => ({
     me: builder.query<TTokenizedUser, void>({
       query: () => "users/me",
       transformResponse: (response: TApiResponse<TTokenizedUser>) => response.data,
+    }),
+
+    getStudents: builder.query<TUser[], void>({
+      query: () => "students",
+      transformResponse: (response: TApiResponse<TUser[]>) => response.data,
     }),
 
     registerStudent: builder.mutation<TLoginResponse, ICreateStudentDto>({
@@ -36,4 +42,5 @@ export const {
   useLazyMeQuery,
   useRegisterStudentMutation,
   useRegisterTeacherMutation,
+  useGetStudentsQuery,
 } = usersApi;
