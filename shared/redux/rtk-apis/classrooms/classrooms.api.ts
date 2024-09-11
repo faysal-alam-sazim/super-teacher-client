@@ -35,21 +35,24 @@ const classroomsApi = projectApi.injectEndpoints({
       invalidatesTags: ["Classrooms"],
     }),
 
-    enrollStudent: builder.mutation<TEnrollMentInfo, TEnrollInfo>({
-      query: (enrollmentInfo) => ({
-        url: "classrooms/students",
+    enrollStudent: builder.mutation<TEnrollMentInfo, { id: number; enrollmentInfo: TEnrollInfo }>({
+      query: ({ id, ...rest }) => ({
+        url: `classrooms/${id}/students`,
         method: "POST",
-        body: enrollmentInfo,
+        body: rest.enrollmentInfo,
       }),
       invalidatesTags: ["EnrolledStudents"],
       transformResponse: (response: TApiResponse<TEnrollMentInfo>) => response.data,
     }),
 
-    removeStudent: builder.mutation<TEnrollMentInfo, TEnrollInfo>({
-      query: (removeEnrollmentInfo) => ({
-        url: "classrooms/students",
+    removeStudent: builder.mutation<
+      TEnrollMentInfo,
+      { id: number; removeEnrollmentInfo: TEnrollInfo }
+    >({
+      query: ({ id, ...rest }) => ({
+        url: `classrooms/${id}/students`,
         method: "DELETE",
-        body: removeEnrollmentInfo,
+        body: rest.removeEnrollmentInfo,
       }),
       invalidatesTags: ["EnrolledStudents"],
     }),
