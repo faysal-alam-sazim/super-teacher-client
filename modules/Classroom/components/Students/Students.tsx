@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import { Flex, Text, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -37,7 +37,7 @@ const Students = ({ students, classroomId }: IStudentsProps) => {
       >
         <Title order={3}>Students</Title>
         {claim === ERole.TEACHER ? (
-          <FaRegPlusSquare color="green" onClick={openEnrollModal} />
+          <FaRegPlusSquare color="green" onClick={openEnrollModal} style={{ cursor: "pointer" }} />
         ) : null}
       </Flex>
       {students?.map((student) => (
@@ -51,7 +51,11 @@ const Students = ({ students, classroomId }: IStudentsProps) => {
               {student.user?.email}{" "}
             </Text>
             {claim === ERole.TEACHER ? (
-              <FaRegTrashAlt color="purple" onClick={() => handleRemoveStudent(student)} />
+              <FaRegTrashAlt
+                color="purple"
+                onClick={() => handleRemoveStudent(student)}
+                style={{ cursor: "pointer" }}
+              />
             ) : null}
           </Flex>
           <RemoveConfirmationModal

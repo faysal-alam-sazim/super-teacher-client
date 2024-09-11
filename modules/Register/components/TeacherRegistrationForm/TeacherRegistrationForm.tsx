@@ -223,7 +223,7 @@ const TeacherRegistrationForm = () => {
           </Flex>
           <Box sx={{ fontSize: "14px" }}>
             <Text ta={"center"} color="green">
-              Already have an account?
+              Already have an account?{" "}
               <Link href={"/login"}>
                 <span style={{ color: "white" }}>Login</span>
               </Link>

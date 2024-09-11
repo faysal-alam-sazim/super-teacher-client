@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Box, Button, Flex, Modal, Title } from "@mantine/core";
 
 import useEnrollmentApiCall from "../../hooks/useEnrollmentApiCall";
