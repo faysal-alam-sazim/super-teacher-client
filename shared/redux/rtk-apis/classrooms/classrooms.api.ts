@@ -9,7 +9,7 @@ const classroomsApi = projectApi.injectEndpoints({
   endpoints: (builder) => ({
     getClassroomById: builder.query<TClassroom, string>({
       query: (id) => `classrooms/${id}`,
-      providesTags: (result, error, id) => [{ type: "Classrooms", id }],
+      providesTags: (_result, _error, id) => [{ type: "Classrooms", id }],
       transformResponse: (response: TApiResponse<TClassroom>) => response.data,
     }),
 
