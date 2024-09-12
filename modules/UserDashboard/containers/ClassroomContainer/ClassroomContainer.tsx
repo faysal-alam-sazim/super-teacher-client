@@ -26,8 +26,6 @@ const ClassroomContainer = ({ open }: IClassroomContainerProps) => {
     }
   }, [data, isSuccess]);
 
-  console.log(data);
-
   return (
     <Box mih={"91vh"} pos={"relative"}>
       {isSuccess && classrooms.length > 0 ? (
