@@ -6,6 +6,7 @@ export type TClassroom = {
   subject: string;
   classTime: Date;
   days: string[];
+  meetLink?: string;
   teacher?: TTeacher;
 };
 
