@@ -5,7 +5,7 @@ const getConnectSrcCSPConfig = () => {
   const defaultConnectSrc = "";
 
   if (["development", "local"].includes(env)) {
-    return `${defaultConnectSrc} http://localhost:*`;
+    return `${defaultConnectSrc} http://localhost:* ws://localhost:${process.env["NEXT_PUBLIC_BE_WS_PORT"]}`;
   }
 
   return defaultConnectSrc;
