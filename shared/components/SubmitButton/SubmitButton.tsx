@@ -6,6 +6,7 @@ import { useSubmitButtonStyle } from "./SubmitButton.style";
 
 const SubmitButton = () => {
   const { classes } = useSubmitButtonStyle();
+
   return (
     <Button type="submit" className={classes.submitButton}>
       Submit
