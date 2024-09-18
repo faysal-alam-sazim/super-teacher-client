@@ -30,12 +30,6 @@ export interface IUserDto {
   email: string;
   password: string;
   role: ERole;
-}
-
-export interface ICreateStudentDto extends IUserDto {
-  studentInput: IStudentDto;
-}
-
-export interface ICreateTeacherDto extends IUserDto {
-  teacherInput: ITeacherDto;
+  studentInput?: IStudentDto;
+  teacherInput?: ITeacherDto;
 }

@@ -10,21 +10,21 @@ import {
 import { useAppDispatch } from "@/shared/redux/hooks";
 import { setCounter } from "@/shared/redux/reducers/counter.reducer";
 import { setUser } from "@/shared/redux/reducers/user.reducer";
-import { useRegisterTeacherMutation } from "@/shared/redux/rtk-apis/users/users.api";
-import { ERole, ICreateTeacherDto } from "@/shared/typedefs";
+import { useRegisterMutation } from "@/shared/redux/rtk-apis/users/users.api";
+import { ERole, IUserDto } from "@/shared/typedefs";
 import { getApiErrorAttemptRemaining, parseApiErrorMessage } from "@/shared/utils/errors";
 import { setInLocalStorage } from "@/shared/utils/localStorage";
 
 import { TTeacherRegistrationFormData } from "../components/TeacherRegistrationForm/TeacherRegistrationForm.types";
 
 const useTeacherRegistration = () => {
-  const [registerTeacher] = useRegisterTeacherMutation();
+  const [register] = useRegisterMutation();
   const dispatch = useAppDispatch();
   const { getMe } = useSessionContext();
   const router = useRouter();
 
   const onSubmit = async (data: TTeacherRegistrationFormData) => {
-    const newTeacher: ICreateTeacherDto = {
+    const newTeacher: IUserDto = {
       firstName: data.firstName,
       lastName: data.lastName,
       gender: data.gender,
@@ -40,7 +40,8 @@ const useTeacherRegistration = () => {
     };
 
     try {
-      const res = await registerTeacher(newTeacher).unwrap();
+      const res = await register(newTeacher).unwrap();
+
       if (res) {
         setInLocalStorage(ACCESS_TOKEN_LOCAL_STORAGE_KEY, res.accessToken);
         dispatch(setUser(res.user));

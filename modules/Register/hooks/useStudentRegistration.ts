@@ -9,21 +9,21 @@ import {
 } from "@/shared/constants/app.constants";
 import { useAppDispatch } from "@/shared/redux/hooks";
 import { setUser } from "@/shared/redux/reducers/user.reducer";
-import { useRegisterStudentMutation } from "@/shared/redux/rtk-apis/users/users.api";
-import { ERole, ICreateStudentDto } from "@/shared/typedefs";
+import { useRegisterMutation } from "@/shared/redux/rtk-apis/users/users.api";
+import { ERole, IUserDto } from "@/shared/typedefs";
 import { parseApiErrorMessage } from "@/shared/utils/errors";
 import { setInLocalStorage } from "@/shared/utils/localStorage";
 
 import { TStudentRegistrationFormData } from "../components/StudentRegistrationForm/StudentRegistrationForm.types";
 
 const useStudentRegistration = () => {
-  const [registerStudent] = useRegisterStudentMutation();
+  const [register] = useRegisterMutation();
   const dispatch = useAppDispatch();
   const { getMe } = useSessionContext();
   const router = useRouter();
 
   const onSubmit = async (data: TStudentRegistrationFormData) => {
-    const newStudent: ICreateStudentDto = {
+    const newStudent: IUserDto = {
       firstName: data.firstName,
       lastName: data.lastName,
       gender: data.gender,
@@ -43,7 +43,8 @@ const useStudentRegistration = () => {
     };
 
     try {
-      const res = await registerStudent(newStudent).unwrap();
+      const res = await register(newStudent).unwrap();
+
       if (res) {
         setInLocalStorage(ACCESS_TOKEN_LOCAL_STORAGE_KEY, res.accessToken);
         dispatch(setUser(res.user));

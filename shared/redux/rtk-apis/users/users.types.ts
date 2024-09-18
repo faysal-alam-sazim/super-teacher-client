@@ -1,7 +1,5 @@
 import { ERole } from "@/shared/typedefs";
 
-import { ERole } from "@/shared/typedefs";
-
 export type TUserProfile = {
   id: number;
   createdAt: string;
