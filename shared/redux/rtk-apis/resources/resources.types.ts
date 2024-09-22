@@ -10,3 +10,8 @@ export type TAddResourceInfoDto = {
   title: string;
   description: string;
 };
+
+export type TEditResourceInfoDto = {
+  title?: string;
+  description?: string;
+};
