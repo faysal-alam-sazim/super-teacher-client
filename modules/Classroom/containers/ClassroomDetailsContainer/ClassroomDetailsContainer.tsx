@@ -17,6 +17,7 @@ import { TStudent } from "@/shared/redux/rtk-apis/users/users.types";
 
 import Students from "../../components/Students/Students";
 import Teacher from "../../components/Teacher/Teacher";
+import ClassroomClassworkContainer from "../ClassroomClassworkContainer/ClassroomClassworkContainer";
 import ClassroomStreamContainer from "../ClassroomStreamContainer/ClassroomStreamContainer";
 
 const ClassroomDetailsContainer = () => {
@@ -90,6 +91,10 @@ const ClassroomDetailsContainer = () => {
           ) : (
             <ClassroomStreamContainer classroom={classroom} />
           )}
+        </Tabs.Panel>
+
+        <Tabs.Panel value="classwork">
+          <ClassroomClassworkContainer />
         </Tabs.Panel>
 
         <Tabs.Panel value="people">
