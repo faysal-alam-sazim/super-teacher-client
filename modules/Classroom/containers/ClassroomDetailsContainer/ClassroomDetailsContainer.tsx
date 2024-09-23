@@ -94,7 +94,11 @@ const ClassroomDetailsContainer = () => {
         </Tabs.Panel>
 
         <Tabs.Panel value="classwork">
-          <ClassroomClassworkContainer />
+          {isClassroomFetchLoading || !classroom ? (
+            <LoadingComponent visible={true} />
+          ) : (
+            <ClassroomClassworkContainer classroom={classroom} />
+          )}
         </Tabs.Panel>
 
         <Tabs.Panel value="people">
