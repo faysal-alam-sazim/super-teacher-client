@@ -1,7 +1,7 @@
 import { TApiResponse } from "@/shared/typedefs";
 
 import projectApi from "../api.config";
-import { TCreateExamDto, TExam } from "./exams.types";
+import { TCreateExamDto, TEditExamDto, TExam } from "./exams.types";
 
 const examsApi = projectApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -20,7 +20,22 @@ const examsApi = projectApi.injectEndpoints({
       invalidatesTags: (_result, _error, { id }) => [{ type: "ClassroomExams", id: id }],
       transformResponse: (response: TApiResponse<TExam>) => response.data,
     }),
+
+    editExam: builder.mutation<
+      TExam,
+      { classroomId: number; updatedExam: TEditExamDto; examId: number }
+    >({
+      query: ({ classroomId, updatedExam, examId }) => ({
+        url: `classrooms/${classroomId}/exams/${examId}`,
+        method: "PATCH",
+        body: updatedExam,
+      }),
+      invalidatesTags: (_result, _error, { classroomId }) => [
+        { type: "ClassroomExams", id: classroomId },
+      ],
+      transformResponse: (response: TApiResponse<TExam>) => response.data,
+    }),
   }),
 });
 
-export const { useGetExamsQuery, useCreateExamMutation } = examsApi;
+export const { useGetExamsQuery, useCreateExamMutation, useEditExamMutation } = examsApi;

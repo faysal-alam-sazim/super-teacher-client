@@ -11,3 +11,9 @@ export type TCreateExamDto = {
   instruction: string;
   date: Date;
 };
+
+export type TEditExamDto = {
+  title?: string;
+  instruction?: string;
+  date?: Date;
+};
