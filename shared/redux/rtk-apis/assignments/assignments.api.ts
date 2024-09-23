@@ -1,4 +1,4 @@
-import { TApiResponse } from "@/shared/typedefs";
+import { TApiResponse, TDeleteApiResponse } from "@/shared/typedefs";
 
 import projectApi from "../api.config";
 import { TAssignment, TAddAssignmentInfoDto, TEditAssignmentInfoDto } from "./assignments.types";
@@ -69,8 +69,25 @@ const assignmentsApi = projectApi.injectEndpoints({
       ],
       transformResponse: (response: TApiResponse<TAssignment>) => response.data,
     }),
+
+    deleteAssignments: builder.mutation<
+      TDeleteApiResponse,
+      { classroomId: number; assignmentId: number }
+    >({
+      query: ({ classroomId, assignmentId }) => ({
+        url: `classrooms/${classroomId}/assignments/${assignmentId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (_result, _error, { classroomId }) => [
+        { type: "ClassroomAssignments", classroomId },
+      ],
+    }),
   }),
 });
 
-export const { useGetAssignmentsQuery, useCreateAssignmentMutation, useUpdateAssignmentMutation } =
-  assignmentsApi;
+export const {
+  useGetAssignmentsQuery,
+  useCreateAssignmentMutation,
+  useUpdateAssignmentMutation,
+  useDeleteAssignmentsMutation,
+} = assignmentsApi;
