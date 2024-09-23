@@ -9,12 +9,17 @@ import { TAssignmentSubmissionFormData } from "../components/AddAssignmentSubmis
 const useAddAssignmentSubmissionForm = (classroomId: number) => {
   const [addSubmission, { isLoading }] = useAddSubmissionMutation();
 
-  const onSubmit = async (data: TAssignmentSubmissionFormData, assignmentId: number) => {
+  const onSubmit = async (
+    data: TAssignmentSubmissionFormData,
+    assignmentId: number,
+    userId: number,
+  ) => {
     try {
       await addSubmission({
         classroomId,
         assignmentId,
         submissionFile: data.uploadFile,
+        userId,
       }).unwrap();
 
       showNotification({

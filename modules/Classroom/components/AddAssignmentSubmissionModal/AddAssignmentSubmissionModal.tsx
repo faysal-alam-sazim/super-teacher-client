@@ -3,6 +3,9 @@ import { useRef, useState } from "react";
 import { Button, Flex, Modal, TextInput, Title } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 
+import { useAppSelector } from "@/shared/redux/hooks";
+import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
+
 import useAddAssignmentSubmissionForm from "../../hooks/useAddAssignmentSubmissionForm";
 import { useSubmitAssignmentStyles } from "./AddAssignmentSubmission.styles";
 import { submitAssignmentSchemaResolver } from "./AddAssignmentSubmissionForm.schema";
@@ -27,6 +30,8 @@ const AddAssignmentSubmissionModal = ({
     mode: "onSubmit",
   });
 
+  const { userId } = useAppSelector(authenticatedUserSelector);
+
   const { classes } = useSubmitAssignmentStyles();
 
   const [fileName, setFileName] = useState("");
@@ -35,7 +40,7 @@ const AddAssignmentSubmissionModal = ({
   const { onSubmit, isLoading } = useAddAssignmentSubmissionForm(classroomId);
 
   const handleOnSubmit = (data: TAssignmentSubmissionFormData) => {
-    onSubmit(data, assignmentId);
+    onSubmit(data, assignmentId, userId || -1);
     if (!isLoading) {
       close();
     }

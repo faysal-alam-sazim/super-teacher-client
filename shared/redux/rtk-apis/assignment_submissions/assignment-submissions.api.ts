@@ -16,7 +16,7 @@ const assignmentSubmissionsApi = projectApi.injectEndpoints({
 
     addSubmission: builder.mutation<
       TSubmission,
-      { classroomId: number; assignmentId: number; submissionFile: File }
+      { classroomId: number; assignmentId: number; submissionFile: File; userId: number }
     >({
       query: ({ classroomId, assignmentId, submissionFile }) => {
         const formData = new FormData();
@@ -28,8 +28,10 @@ const assignmentSubmissionsApi = projectApi.injectEndpoints({
           body: formData,
         };
       },
-      invalidatesTags: (_result, _error, { assignmentId }) => [
+      invalidatesTags: (_result, _error, { assignmentId, classroomId, userId }) => [
         { type: "AssignmentSubmissions", assignmentId },
+        { type: "ClassroomAssignments", id: classroomId },
+        { type: "UserAssignments", id: userId },
       ],
       transformResponse: (response: TApiResponse<TSubmission>) => response.data,
     }),

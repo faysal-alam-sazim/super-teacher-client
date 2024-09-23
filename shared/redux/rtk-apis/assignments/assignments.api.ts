@@ -11,6 +11,16 @@ const assignmentsApi = projectApi.injectEndpoints({
       transformResponse: (response: TApiResponse<TAssignment[]>) => response.data,
     }),
 
+    getSubmittedAssignments: builder.query<TAssignment[], { classroomId: number; userId: number }>({
+      query: ({ classroomId }) => `classrooms/${classroomId}/assignments/studentSubmissions`,
+
+      providesTags: (_result, _error, { classroomId, userId }) => [
+        { type: "ClassroomAssignments", id: classroomId },
+        { type: "UserAssignments", id: userId },
+      ],
+      transformResponse: (response: TApiResponse<TAssignment[]>) => response.data,
+    }),
+
     createAssignment: builder.mutation<
       TAssignment,
       { id: number; newAssignment: TAddAssignmentInfoDto; assignmentFile: File }
@@ -87,6 +97,7 @@ const assignmentsApi = projectApi.injectEndpoints({
 
 export const {
   useGetAssignmentsQuery,
+  useGetSubmittedAssignmentsQuery,
   useCreateAssignmentMutation,
   useUpdateAssignmentMutation,
   useDeleteAssignmentsMutation,

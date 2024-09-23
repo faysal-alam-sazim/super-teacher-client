@@ -7,16 +7,21 @@ import { FaFilePdf } from "react-icons/fa";
 import { LuFileEdit } from "react-icons/lu";
 
 import DeleteConfirmationModal from "@/shared/components/DeleteConfirmationModal";
+import { useSessionContext } from "@/shared/components/wrappers/AppInitializer/AppInitializerContext";
 import { NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS } from "@/shared/constants/app.constants";
 import { useAppSelector } from "@/shared/redux/hooks";
 import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
-import { useDeleteAssignmentsMutation } from "@/shared/redux/rtk-apis/assignments/assignments.api";
+import {
+  useDeleteAssignmentsMutation,
+  useGetSubmittedAssignmentsQuery,
+} from "@/shared/redux/rtk-apis/assignments/assignments.api";
 import { EDateFormat, ERole } from "@/shared/typedefs";
 import { parseApiErrorMessage } from "@/shared/utils/errors";
 
 import AddAssignmentSubmissionModal from "../AddAssignmentSubmissionModal/AddAssignmentSubmissionModal";
 import EditAssignmnetModal from "../EditAssignemntModal/EditAssignmentModal";
 import GetAssignmentSubmissionsModal from "../GetAssignmentSubmissionsModal/GetAssignmentSubmissionsModal";
+import { getSubmissionButton } from "./AssignmentCard.helper";
 import { useAssignmentCardStyles } from "./AssignmentCard.styles";
 import { TAssignmentCardProps } from "./AssignmentCard.types";
 
@@ -39,6 +44,16 @@ const AssignmentCard = ({ assignment, classroomId }: TAssignmentCardProps) => {
   const handleOpenFile = () => {
     window.open(assignment.fileUrl, "_blank");
   };
+
+  const { user } = useSessionContext();
+
+  const { data: fetchedSubmittedAssignments } = useGetSubmittedAssignmentsQuery(
+    {
+      classroomId,
+      userId: user ? user.id : -1,
+    },
+    { skip: user?.claim === ERole.TEACHER },
+  );
 
   const handleDelete = async () => {
     try {
@@ -99,9 +114,7 @@ const AssignmentCard = ({ assignment, classroomId }: TAssignmentCardProps) => {
             <strong> Due Date:</strong> {dayjs(assignment.dueDate).format(EDateFormat.SHORT)}
           </Text>
           {claim === ERole.STUDENT ? (
-            <Button color="green" onClick={openSubmitModal}>
-              Submit
-            </Button>
+            getSubmissionButton(fetchedSubmittedAssignments, assignment, openSubmitModal)
           ) : (
             <Button variant="outline" color="dark" onClick={openSubmissionsModal}>
               Submissions
