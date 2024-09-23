@@ -1,4 +1,4 @@
-import { TApiResponse } from "@/shared/typedefs";
+import { TApiResponse, TDeleteApiResponse } from "@/shared/typedefs";
 
 import projectApi from "../api.config";
 import { TAddResourceInfoDto, TEditResourceInfoDto, TResource } from "./resources.types";
@@ -59,8 +59,25 @@ const resourcesApi = projectApi.injectEndpoints({
       ],
       transformResponse: (response: TApiResponse<TResource>) => response.data,
     }),
+
+    deleteResource: builder.mutation<
+      TDeleteApiResponse,
+      { classroomId: number; resourceId: number }
+    >({
+      query: ({ classroomId, resourceId }) => ({
+        url: `classrooms/${classroomId}/resources/${resourceId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (_result, _error, { classroomId }) => [
+        { type: "ClassroomResources", classroomId },
+      ],
+    }),
   }),
 });
 
-export const { useGetResourceMaterialsQuery, useAddResourceMutation, useUpdateResourceMutation } =
-  resourcesApi;
+export const {
+  useGetResourceMaterialsQuery,
+  useAddResourceMutation,
+  useUpdateResourceMutation,
+  useDeleteResourceMutation,
+} = resourcesApi;
