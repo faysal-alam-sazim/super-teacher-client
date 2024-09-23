@@ -1,4 +1,4 @@
-import { TApiResponse } from "@/shared/typedefs";
+import { TApiResponse, TDeleteApiResponse } from "@/shared/typedefs";
 
 import projectApi from "../api.config";
 import { TCreateExamDto, TEditExamDto, TExam } from "./exams.types";
@@ -35,7 +35,22 @@ const examsApi = projectApi.injectEndpoints({
       ],
       transformResponse: (response: TApiResponse<TExam>) => response.data,
     }),
+
+    deleteExam: builder.mutation<TDeleteApiResponse, { classroomId: number; examId: number }>({
+      query: ({ classroomId, examId }) => ({
+        url: `classrooms/${classroomId}/exams/${examId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (_result, _error, { classroomId }) => [
+        { type: "ClassroomExams", classroomId },
+      ],
+    }),
   }),
 });
 
-export const { useGetExamsQuery, useCreateExamMutation, useEditExamMutation } = examsApi;
+export const {
+  useGetExamsQuery,
+  useCreateExamMutation,
+  useEditExamMutation,
+  useDeleteExamMutation,
+} = examsApi;
