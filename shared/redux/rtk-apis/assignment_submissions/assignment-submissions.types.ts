@@ -1,4 +1,5 @@
 export type TSubmission = {
+  id: number;
   submittedAt: Date;
   fileUrl: string;
   student: {

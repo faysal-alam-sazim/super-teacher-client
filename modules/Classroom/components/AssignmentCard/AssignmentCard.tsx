@@ -16,6 +16,7 @@ import { parseApiErrorMessage } from "@/shared/utils/errors";
 
 import AddAssignmentSubmissionModal from "../AddAssignmentSubmissionModal/AddAssignmentSubmissionModal";
 import EditAssignmnetModal from "../EditAssignemntModal/EditAssignmentModal";
+import GetAssignmentSubmissionsModal from "../GetAssignmentSubmissionsModal/GetAssignmentSubmissionsModal";
 import { useAssignmentCardStyles } from "./AssignmentCard.styles";
 import { TAssignmentCardProps } from "./AssignmentCard.types";
 
@@ -25,6 +26,9 @@ const AssignmentCard = ({ assignment, classroomId }: TAssignmentCardProps) => {
     useDisclosure(false);
 
   const [submitModalOpened, { open: openSubmitModal, close: closeSubmitModal }] =
+    useDisclosure(false);
+
+  const [submissionsModalOpened, { open: openSubmissionsModal, close: closeSubmissionsModal }] =
     useDisclosure(false);
 
   const [deleteAssignment] = useDeleteAssignmentsMutation();
@@ -99,7 +103,7 @@ const AssignmentCard = ({ assignment, classroomId }: TAssignmentCardProps) => {
               Submit
             </Button>
           ) : (
-            <Button variant="outline" color="dark">
+            <Button variant="outline" color="dark" onClick={openSubmissionsModal}>
               Submissions
             </Button>
           )}
@@ -119,7 +123,15 @@ const AssignmentCard = ({ assignment, classroomId }: TAssignmentCardProps) => {
       <AddAssignmentSubmissionModal
         opened={submitModalOpened}
         close={closeSubmitModal}
+        classroomId={classroomId}
         assignmentId={assignment.id}
+      />
+      <GetAssignmentSubmissionsModal
+        opened={submissionsModalOpened}
+        close={closeSubmissionsModal}
+        classroomId={classroomId}
+        assignmentId={assignment.id}
+        assignmentDueDate={assignment.dueDate}
       />
     </Box>
   );

@@ -14,6 +14,7 @@ import {
 const AddAssignmentSubmissionModal = ({
   opened,
   close,
+  classroomId,
   assignmentId,
 }: TAssignmentSubmissionsModalProps) => {
   const {
@@ -31,7 +32,7 @@ const AddAssignmentSubmissionModal = ({
   const [fileName, setFileName] = useState("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  const { onSubmit, isLoading } = useAddAssignmentSubmissionForm();
+  const { onSubmit, isLoading } = useAddAssignmentSubmissionForm(classroomId);
 
   const handleOnSubmit = (data: TAssignmentSubmissionFormData) => {
     onSubmit(data, assignmentId);
