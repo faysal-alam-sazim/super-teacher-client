@@ -14,6 +14,7 @@ import { useDeleteAssignmentsMutation } from "@/shared/redux/rtk-apis/assignment
 import { EDateFormat, ERole } from "@/shared/typedefs";
 import { parseApiErrorMessage } from "@/shared/utils/errors";
 
+import AddAssignmentSubmissionModal from "../AddAssignmentSubmissionModal/AddAssignmentSubmissionModal";
 import EditAssignmnetModal from "../EditAssignemntModal/EditAssignmentModal";
 import { useAssignmentCardStyles } from "./AssignmentCard.styles";
 import { TAssignmentCardProps } from "./AssignmentCard.types";
@@ -21,6 +22,9 @@ import { TAssignmentCardProps } from "./AssignmentCard.types";
 const AssignmentCard = ({ assignment, classroomId }: TAssignmentCardProps) => {
   const [editOpened, { open: openEdit, close: closeEditModal }] = useDisclosure(false);
   const [deleteModalOpened, { open: openDeleteModal, close: closeDeleteModal }] =
+    useDisclosure(false);
+
+  const [submitModalOpened, { open: openSubmitModal, close: closeSubmitModal }] =
     useDisclosure(false);
 
   const [deleteAssignment] = useDeleteAssignmentsMutation();
@@ -86,9 +90,20 @@ const AssignmentCard = ({ assignment, classroomId }: TAssignmentCardProps) => {
         >
           Download
         </Button>
-        <Text className={classes.dateText}>
-          <strong> Due Date:</strong> {dayjs(assignment.dueDate).format(EDateFormat.SHORT)}
-        </Text>
+        <Flex align={"center"} gap={12} mt={12}>
+          <Text className={classes.dateText}>
+            <strong> Due Date:</strong> {dayjs(assignment.dueDate).format(EDateFormat.SHORT)}
+          </Text>
+          {claim === ERole.STUDENT ? (
+            <Button color="green" onClick={openSubmitModal}>
+              Submit
+            </Button>
+          ) : (
+            <Button variant="outline" color="dark">
+              Submissions
+            </Button>
+          )}
+        </Flex>
       </Box>
       <EditAssignmnetModal
         opened={editOpened}
@@ -100,6 +115,11 @@ const AssignmentCard = ({ assignment, classroomId }: TAssignmentCardProps) => {
         opened={deleteModalOpened}
         close={closeDeleteModal}
         onDeleteAction={handleDelete}
+      />
+      <AddAssignmentSubmissionModal
+        opened={submitModalOpened}
+        close={closeSubmitModal}
+        assignmentId={assignment.id}
       />
     </Box>
   );
