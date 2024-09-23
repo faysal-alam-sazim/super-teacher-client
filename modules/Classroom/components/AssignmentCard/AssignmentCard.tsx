@@ -6,10 +6,10 @@ import { BsThreeDots } from "react-icons/bs";
 import { FaFilePdf } from "react-icons/fa";
 import { LuFileEdit } from "react-icons/lu";
 
-import { useAppSelector } from "@/shared/redux/hooks";
-import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
 import DeleteConfirmationModal from "@/shared/components/DeleteConfirmationModal";
 import { NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS } from "@/shared/constants/app.constants";
+import { useAppSelector } from "@/shared/redux/hooks";
+import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
 import { useDeleteAssignmentsMutation } from "@/shared/redux/rtk-apis/assignments/assignments.api";
 import { EDateFormat, ERole } from "@/shared/typedefs";
 import { parseApiErrorMessage } from "@/shared/utils/errors";
@@ -20,7 +20,8 @@ import { TAssignmentCardProps } from "./AssignmentCard.types";
 
 const AssignmentCard = ({ assignment, classroomId }: TAssignmentCardProps) => {
   const [editOpened, { open: openEdit, close: closeEditModal }] = useDisclosure(false);
-  const [deleteOpened, { open: openDelete, close: closeDelete }] = useDisclosure(false);
+  const [deleteModalOpened, { open: openDeleteModal, close: closeDeleteModal }] =
+    useDisclosure(false);
 
   const [deleteAssignment] = useDeleteAssignmentsMutation();
 
@@ -34,7 +35,7 @@ const AssignmentCard = ({ assignment, classroomId }: TAssignmentCardProps) => {
   const handleDelete = async () => {
     try {
       await deleteAssignment({ classroomId, assignmentId: assignment.id }).unwrap();
-      closeDelete();
+      closeDeleteModal();
       showNotification({
         title: "Success",
         message: "Resource Deleted Successfully!",
@@ -69,7 +70,7 @@ const AssignmentCard = ({ assignment, classroomId }: TAssignmentCardProps) => {
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Item onClick={openEdit}>Edit</Menu.Item>
-              <Menu.Item onClick={openDelete} color="red">
+              <Menu.Item onClick={openDeleteModal} color="red">
                 Delete
               </Menu.Item>
             </Menu.Dropdown>
@@ -96,8 +97,8 @@ const AssignmentCard = ({ assignment, classroomId }: TAssignmentCardProps) => {
         assignment={assignment}
       />
       <DeleteConfirmationModal
-        opened={deleteOpened}
-        close={closeDelete}
+        opened={deleteModalOpened}
+        close={closeDeleteModal}
         onDeleteAction={handleDelete}
       />
     </Box>
