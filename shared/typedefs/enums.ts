@@ -37,3 +37,12 @@ export enum EHighestEducationLevel {
   DIPLOMA = "Diploma",
   PHD = "PhD",
 }
+
+export enum EGatewayOutgoingEvent {
+  JOIN_CLASSROOM = "JOIN_CLASSROOM",
+  SEND_MESSAGE = "SEND_MESSAGE",
+}
+
+export enum EGatewayIncomingEvent {
+  RECEIVE_MESSAGE = "RECEIVE_MESSAGE",
+}

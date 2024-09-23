@@ -2,6 +2,7 @@ import { Box, SimpleGrid, Text, Title } from "@mantine/core";
 import dayjs from "dayjs";
 
 import ClassroomMeetlink from "../ClassroomMeetlink/ClassroomMeetlink";
+import ClassroomChatBox from "../ClassroomChatBox/ClassroomChatBox";
 import { useClassroomStreamBodyStyles } from "./ClassroomStreamBody.styles";
 import { TClassroomStreamBodyProps } from "./ClassroomStreamBody.types";
 
@@ -21,6 +22,7 @@ const ClassroomStreamBody = ({ classroom }: TClassroomStreamBodyProps) => {
           </SimpleGrid>
         </Box>
       </Box>
+      <ClassroomChatBox classroom={classroom} />
     </Box>
   );
 };
