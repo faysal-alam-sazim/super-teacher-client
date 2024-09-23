@@ -9,6 +9,7 @@ import { TClassworkCreateButtonProps } from "./ClassworkCreateButton.types";
 const ClassworkCreateButton = ({
   openExamModal,
   openResourceModal,
+  openAssignmentModal,
 }: TClassworkCreateButtonProps) => {
   const [opened, { toggle }] = useDisclosure(false);
   const { classes } = useCreateButtonStyles(opened);
@@ -30,7 +31,11 @@ const ClassworkCreateButton = ({
       >
         Schedule Exam
       </Button>
-      <Button className={classes.classworkButton} leftIcon={<LuFileEdit />}>
+      <Button
+        className={classes.classworkButton}
+        leftIcon={<LuFileEdit />}
+        onClick={openAssignmentModal}
+      >
         Add Assignment
       </Button>
       <Button className={classes.classworkButton} leftIcon={<FaBook />} onClick={openResourceModal}>
