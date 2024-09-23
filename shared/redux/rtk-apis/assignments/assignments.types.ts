@@ -12,3 +12,9 @@ export type TAddAssignmentInfoDto = {
   description: string;
   dueDate: Date;
 };
+
+export type TEditAssignmentInfoDto = {
+  title?: string;
+  description?: string;
+  dueDate?: Date;
+};
