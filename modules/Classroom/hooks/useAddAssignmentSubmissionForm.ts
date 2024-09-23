@@ -6,12 +6,13 @@ import { parseApiErrorMessage } from "@/shared/utils/errors";
 
 import { TAssignmentSubmissionFormData } from "../components/AddAssignmentSubmissionModal/AddAssignmentSubmissionModal.types";
 
-const useAddAssignmentSubmissionForm = () => {
+const useAddAssignmentSubmissionForm = (classroomId: number) => {
   const [addSubmission, { isLoading }] = useAddSubmissionMutation();
 
   const onSubmit = async (data: TAssignmentSubmissionFormData, assignmentId: number) => {
     try {
       await addSubmission({
+        classroomId,
         assignmentId,
         submissionFile: data.uploadFile,
       }).unwrap();
