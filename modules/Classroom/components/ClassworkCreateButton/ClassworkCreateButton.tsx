@@ -6,7 +6,10 @@ import { LuClipboardList, LuFileEdit } from "react-icons/lu";
 import { useCreateButtonStyles } from "./ClassworkCreateButton.styles";
 import { TClassworkCreateButtonProps } from "./ClassworkCreateButton.types";
 
-const ClassworkCreateButton = ({ openExamModal }: TClassworkCreateButtonProps) => {
+const ClassworkCreateButton = ({
+  openExamModal,
+  openResourceModal,
+}: TClassworkCreateButtonProps) => {
   const [opened, { toggle }] = useDisclosure(false);
   const { classes } = useCreateButtonStyles(opened);
 
@@ -30,7 +33,7 @@ const ClassworkCreateButton = ({ openExamModal }: TClassworkCreateButtonProps) =
       <Button className={classes.classworkButton} leftIcon={<LuFileEdit />}>
         Add Assignment
       </Button>
-      <Button className={classes.classworkButton} leftIcon={<FaBook />}>
+      <Button className={classes.classworkButton} leftIcon={<FaBook />} onClick={openResourceModal}>
         Add Material
       </Button>
     </Box>

@@ -5,6 +5,7 @@ import { useAppSelector } from "@/shared/redux/hooks";
 import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
 import { ERole } from "@/shared/typedefs";
 
+import AddResourceModal from "../../components/AddResourceModal/AddResourceModal";
 import ClassworkCreateButton from "../../components/ClassworkCreateButton/ClassworkCreateButton";
 import CreateExamModal from "../../components/CreateExamModal/CreateExamModal";
 import { useClassworkContainerStyles } from "./ClassroomClassworkContainer.styles";
@@ -14,11 +15,23 @@ const ClassroomClassworkContainer = ({ classroom }: TClassroomClassworkContainer
   const { claim } = useAppSelector(authenticatedUserSelector);
   const { classes } = useClassworkContainerStyles();
   const [examModalOpened, { open: openExamModal, close: closeExamModal }] = useDisclosure(false);
+  const [resourceModalOpened, { open: openResourceModal, close: closeResourceModal }] =
+    useDisclosure(false);
 
   return (
     <Box className={classes.container}>
-      {claim === ERole.TEACHER ? <ClassworkCreateButton openExamModal={openExamModal} /> : null}
+      {claim === ERole.TEACHER ? (
+        <ClassworkCreateButton
+          openExamModal={openExamModal}
+          openResourceModal={openResourceModal}
+        />
+      ) : null}
       <CreateExamModal opened={examModalOpened} close={closeExamModal} classroomId={classroom.id} />
+      <AddResourceModal
+        opened={resourceModalOpened}
+        close={closeResourceModal}
+        classroomId={classroom.id}
+      />
     </Box>
   );
 };
