@@ -3,14 +3,16 @@ import React, { useRef, useState } from "react";
 import { Button, Flex, Modal, Textarea, TextInput, Title } from "@mantine/core";
 import { Controller, useForm } from "react-hook-form";
 
+import useAddResourcesForm from "../../hooks/useAddResourcesForm";
 import { addResourceSchemaResolver } from "./AddResourceForm.schema";
 import { useAddResourceModal } from "./AddResourceModal.styles";
 import { TAddResourceFormData, TAddResourceModalProps } from "./AddResourceModal.types";
 
-const AddResourceModal = ({ opened, close }: TAddResourceModalProps) => {
+const AddResourceModal = ({ opened, close, classroomId }: TAddResourceModalProps) => {
   const { classes } = useAddResourceModal();
   const [fileName, setFileName] = useState("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const { onSubmit, isLoading } = useAddResourcesForm(classroomId);
 
   const {
     control,
@@ -23,8 +25,10 @@ const AddResourceModal = ({ opened, close }: TAddResourceModalProps) => {
   });
 
   const handleOnSubmit = (data: TAddResourceFormData) => {
-    console.log(data);
-    close();
+    onSubmit(data);
+    if (!isLoading) {
+      close();
+    }
   };
 
   return (
@@ -90,7 +94,7 @@ const AddResourceModal = ({ opened, close }: TAddResourceModalProps) => {
           />
 
           <Flex justify={"end"} align={"center"} gap={12} mb={10}>
-            <Button bg={"green"} onClick={() => reset()}>
+            <Button loading={isLoading} bg={"green"} onClick={() => reset()}>
               Cancel
             </Button>
             <Button bg={"green"} type="submit">
