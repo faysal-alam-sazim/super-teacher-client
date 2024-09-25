@@ -5,6 +5,12 @@ import { TAddResourceInfoDto, TResource } from "./resources.types";
 
 const resourcesApi = projectApi.injectEndpoints({
   endpoints: (builder) => ({
+    getResourceMaterials: builder.query<TResource[], number>({
+      query: (id) => `classrooms/${id}/resources`,
+      providesTags: (_result, _error, id) => [{ type: "ClassroomResources", id }],
+      transformResponse: (response: TApiResponse<TResource[]>) => response.data,
+    }),
+
     addResource: builder.mutation<
       TResource,
       { id: number; newResourceInfo: TAddResourceInfoDto; resourceFile: File }
@@ -27,4 +33,4 @@ const resourcesApi = projectApi.injectEndpoints({
   }),
 });
 
-export const { useAddResourceMutation } = resourcesApi;
+export const { useGetResourceMaterialsQuery, useAddResourceMutation } = resourcesApi;

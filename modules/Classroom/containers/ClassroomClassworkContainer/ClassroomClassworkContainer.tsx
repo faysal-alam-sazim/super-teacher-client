@@ -8,6 +8,7 @@ import { ERole } from "@/shared/typedefs";
 import AddResourceModal from "../../components/AddResourceModal/AddResourceModal";
 import ClassworkCreateButton from "../../components/ClassworkCreateButton/ClassworkCreateButton";
 import CreateExamModal from "../../components/CreateExamModal/CreateExamModal";
+import ClassroomResourcesContainer from "../ClassroomResourcesContainer/ClassroomResourcesContainer";
 import { useClassworkContainerStyles } from "./ClassroomClassworkContainer.styles";
 import { TClassroomClassworkContainerProps } from "./ClassroomClassworkContainer.types";
 
@@ -32,6 +33,7 @@ const ClassroomClassworkContainer = ({ classroom }: TClassroomClassworkContainer
         close={closeResourceModal}
         classroomId={classroom.id}
       />
+      <ClassroomResourcesContainer classroomId={classroom.id} />
     </Box>
   );
 };
