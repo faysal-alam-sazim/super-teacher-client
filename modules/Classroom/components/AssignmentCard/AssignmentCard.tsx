@@ -17,6 +17,7 @@ import { parseApiErrorMessage } from "@/shared/utils/errors";
 import AddAssignmentSubmissionModal from "../AddAssignmentSubmissionModal/AddAssignmentSubmissionModal";
 import EditAssignmnetModal from "../EditAssignemntModal/EditAssignmentModal";
 import GetAssignmentSubmissionsModal from "../GetAssignmentSubmissionsModal/GetAssignmentSubmissionsModal";
+import { getSubmissionButton } from "./AssignmentCard.helper";
 import { useAssignmentCardStyles } from "./AssignmentCard.styles";
 import { TAssignmentCardProps } from "./AssignmentCard.types";
 
@@ -34,7 +35,7 @@ const AssignmentCard = ({ assignment, classroomId }: TAssignmentCardProps) => {
   const [deleteAssignment] = useDeleteAssignmentsMutation();
 
   const { classes } = useAssignmentCardStyles(assignment.dueDate);
-  const { claim } = useAppSelector(authenticatedUserSelector);
+  const { userId, claim } = useAppSelector(authenticatedUserSelector);
 
   const handleOpenFile = () => {
     window.open(assignment.fileUrl, "_blank");
@@ -99,9 +100,7 @@ const AssignmentCard = ({ assignment, classroomId }: TAssignmentCardProps) => {
             <strong> Due Date:</strong> {dayjs(assignment.dueDate).format(EDateFormat.SHORT)}
           </Text>
           {claim === ERole.STUDENT ? (
-            <Button color="green" onClick={openSubmitModal}>
-              Submit
-            </Button>
+            getSubmissionButton(assignment, userId || -1, openSubmitModal)
           ) : (
             <Button variant="outline" color="dark" onClick={openSubmissionsModal}>
               Submissions

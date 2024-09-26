@@ -2,7 +2,10 @@ import { ActionIcon, Badge, Box, Flex, Modal, Text, Title } from "@mantine/core"
 import { FaDownload } from "react-icons/fa";
 
 import LoadingComponent from "@/shared/components/LoadingComponent";
+import { useAppSelector } from "@/shared/redux/hooks";
+import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
 import { useGetSubmissionsQuery } from "@/shared/redux/rtk-apis/assignment_submissions/assignment-submissions.api";
+import { ERole } from "@/shared/typedefs";
 
 import { isPastDueDate } from "./GetAssignmentSubmissionsModal.helper";
 import { useSubmissionsStyle } from "./GetAssignmentSubmissionsModal.styles";
@@ -17,12 +20,14 @@ const GetAssignmentSubmissionsModal = ({
 }: TGetAssignmentSubmissionsProps) => {
   const { classes } = useSubmissionsStyle();
 
+  const { claim } = useAppSelector(authenticatedUserSelector);
+
   const { data: fetchedSubmissions, isLoading } = useGetSubmissionsQuery(
     {
       classroomId,
       assignmentId,
     },
-    { skip: !classroomId || !assignmentId },
+    { skip: !classroomId || !assignmentId || claim === ERole.STUDENT },
   );
 
   const handleOpenFile = (fileUrl: string) => {

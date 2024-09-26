@@ -1,3 +1,5 @@
+import { TSubmission } from "../assignment_submissions/assignment-submissions.types";
+
 export type TAssignment = {
   id: number;
   title: string;
@@ -5,6 +7,7 @@ export type TAssignment = {
   fileUrl: string;
   dueDate: Date;
   classroom?: number;
+  submissions?: TSubmission[];
 };
 
 export type TAddAssignmentInfoDto = {

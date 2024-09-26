@@ -5,6 +5,7 @@ export type TSubmission = {
   student: {
     id: number;
     user: {
+      id: number;
       firstName: string;
       lastName: string;
     };
