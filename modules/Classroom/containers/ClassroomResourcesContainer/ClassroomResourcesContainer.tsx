@@ -40,7 +40,11 @@ const ClassroomResourcesContainer = ({ classroomId }: TClassroomResourcesContain
             ) : null}
             {isMaterialsOpened
               ? fetchedMaterials?.map((material) => (
-                  <ResourceMaterialCard key={material.id} resource={material} />
+                  <ResourceMaterialCard
+                    key={material.id}
+                    resource={material}
+                    classroomId={classroomId}
+                  />
                 ))
               : null}
           </Box>
