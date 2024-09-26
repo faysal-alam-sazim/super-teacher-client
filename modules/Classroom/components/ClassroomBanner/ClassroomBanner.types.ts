@@ -1,6 +1,5 @@
+import { TClassroom } from "@/shared/redux/rtk-apis/classrooms/classrooms.types";
+
 export type TClassroomBannerProps = {
-  title: string;
-  subject: string;
-  classTime: Date;
-  days: Array<string>;
+  classroom: TClassroom;
 };
