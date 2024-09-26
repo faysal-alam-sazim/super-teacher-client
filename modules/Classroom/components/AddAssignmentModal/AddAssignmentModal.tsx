@@ -1,30 +1,32 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import { Button, Flex, Modal, Textarea, TextInput, Title } from "@mantine/core";
+import { DateInput } from "@mantine/dates";
 import { Controller, useForm } from "react-hook-form";
 
-import useAddResourcesForm from "../../hooks/useAddResourcesForm";
-import { addResourceSchemaResolver } from "./AddResourceForm.schema";
-import { useAddResourceModal } from "./AddResourceModal.styles";
-import { TAddResourceFormData, TAddResourceModalProps } from "./AddResourceModal.types";
+import useAddAssignmentForm from "../../hooks/useAddAssignmentForm";
+import { addAssignmentSchemaResolver } from "./AddAssignmentForm.schema";
+import { useAddAssignmentModalStyles } from "./AddAssignmentModal.styles";
+import { TAddAssignmentFromData, TAddAssignmentModalProps } from "./AddAssignmentModal.types";
 
-const AddResourceModal = ({ opened, close, classroomId }: TAddResourceModalProps) => {
-  const { classes } = useAddResourceModal();
+const AddAssignmnetModal = ({ opened, close, classroomId }: TAddAssignmentModalProps) => {
+  const { classes } = useAddAssignmentModalStyles();
   const [fileName, setFileName] = useState("");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { onSubmit, isLoading } = useAddResourcesForm(classroomId);
+
+  const { onSubmit, isLoading } = useAddAssignmentForm(classroomId);
 
   const {
     control,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<TAddResourceFormData>({
-    resolver: addResourceSchemaResolver,
+  } = useForm<TAddAssignmentFromData>({
+    resolver: addAssignmentSchemaResolver,
     mode: "onSubmit",
   });
 
-  const handleOnSubmit = (data: TAddResourceFormData) => {
+  const handleOnSubmit = (data: TAddAssignmentFromData) => {
     onSubmit(data);
     if (!isLoading) {
       close();
@@ -34,7 +36,7 @@ const AddResourceModal = ({ opened, close, classroomId }: TAddResourceModalProps
   return (
     <Modal opened={opened} onClose={close} centered>
       <Title className={classes.titleText} order={4}>
-        Upload Material
+        Create Assignment
       </Title>
       <form onSubmit={handleSubmit(handleOnSubmit)}>
         <Flex direction={"column"} gap={30} mt={12}>
@@ -62,6 +64,20 @@ const AddResourceModal = ({ opened, close, classroomId }: TAddResourceModalProps
                 placeholder="Enter a description"
                 className={classes.input}
                 error={errors.description?.message}
+              />
+            )}
+          />
+
+          <Controller
+            name="dueDate"
+            control={control}
+            render={({ field }) => (
+              <DateInput
+                {...field}
+                label="Date"
+                placeholder="Select a date"
+                className={classes.input}
+                error={errors.dueDate?.message}
               />
             )}
           />
@@ -98,7 +114,7 @@ const AddResourceModal = ({ opened, close, classroomId }: TAddResourceModalProps
               Cancel
             </Button>
             <Button loading={isLoading} bg={"green"} type="submit">
-              Upload
+              Create
             </Button>
           </Flex>
         </Flex>
@@ -107,4 +123,4 @@ const AddResourceModal = ({ opened, close, classroomId }: TAddResourceModalProps
   );
 };
 
-export default AddResourceModal;
+export default AddAssignmnetModal;

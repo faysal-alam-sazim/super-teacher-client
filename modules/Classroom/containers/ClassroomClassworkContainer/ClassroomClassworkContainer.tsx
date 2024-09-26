@@ -5,6 +5,7 @@ import { useAppSelector } from "@/shared/redux/hooks";
 import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
 import { ERole } from "@/shared/typedefs";
 
+import AddAssignmnetModal from "../../components/AddAssignmentModal/AddAssignmentModal";
 import AddResourceModal from "../../components/AddResourceModal/AddResourceModal";
 import ClassworkCreateButton from "../../components/ClassworkCreateButton/ClassworkCreateButton";
 import CreateExamModal from "../../components/CreateExamModal/CreateExamModal";
@@ -18,6 +19,8 @@ const ClassroomClassworkContainer = ({ classroom }: TClassroomClassworkContainer
   const [examModalOpened, { open: openExamModal, close: closeExamModal }] = useDisclosure(false);
   const [resourceModalOpened, { open: openResourceModal, close: closeResourceModal }] =
     useDisclosure(false);
+  const [assignmentModalOpened, { open: openAssignmentModal, close: closeAssignmentModal }] =
+    useDisclosure(false);
 
   return (
     <Box className={classes.container}>
@@ -25,12 +28,18 @@ const ClassroomClassworkContainer = ({ classroom }: TClassroomClassworkContainer
         <ClassworkCreateButton
           openExamModal={openExamModal}
           openResourceModal={openResourceModal}
+          openAssignmentModal={openAssignmentModal}
         />
       ) : null}
       <CreateExamModal opened={examModalOpened} close={closeExamModal} classroomId={classroom.id} />
       <AddResourceModal
         opened={resourceModalOpened}
         close={closeResourceModal}
+        classroomId={classroom.id}
+      />
+      <AddAssignmnetModal
+        opened={assignmentModalOpened}
+        close={closeAssignmentModal}
         classroomId={classroom.id}
       />
       <ClassroomResourcesContainer classroomId={classroom.id} />

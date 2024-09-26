@@ -6,3 +6,9 @@ export type TAssignment = {
   dueDate: Date;
   classroom?: number;
 };
+
+export type TAddAssignmentInfoDto = {
+  title: string;
+  description: string;
+  dueDate: Date;
+};
