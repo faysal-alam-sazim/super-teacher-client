@@ -49,3 +49,8 @@ export type TCustomAppProps<P = unknown> = AppProps & {
   Component: NextApplicationPage;
   pageProps: P;
 };
+
+export type TDeleteApiResponse = {
+  statusCode: number;
+  message: string;
+};

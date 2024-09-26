@@ -1,5 +1,6 @@
 import { ActionIcon, Box, Button, Flex, Menu, Text, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { showNotification } from "@mantine/notifications";
 import { BsThreeDots } from "react-icons/bs";
 import { FaBook, FaFilePdf } from "react-icons/fa";
 
@@ -7,18 +8,48 @@ import { useAppSelector } from "@/shared/redux/hooks";
 import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
 import { ERole } from "@/shared/typedefs";
 
+import DeleteConfirmationModal from "@/shared/components/DeleteConfirmationModal";
+import { NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS } from "@/shared/constants/app.constants";
+import { useDeleteResourceMutation } from "@/shared/redux/rtk-apis/resources/resources.api";
+import { parseApiErrorMessage } from "@/shared/utils/errors";
+
 import EditResourceModal from "../EditResourceModal/EditResourceModal";
 import { useResourceCardStyles } from "./ResourceMaterialCard.styles";
 import { TResourceMaterialCardType } from "./ResourceMaterialCard.types";
 
 const ResourceMaterialCard = ({ resource, classroomId }: TResourceMaterialCardType) => {
-  const [opened, { open, close }] = useDisclosure(false);
+  const [editOpened, { open: openEdit, close: closeEditModal }] = useDisclosure(false);
+  const [deleteOpened, { open: openDelete, close: closeDelete }] = useDisclosure(false);
+
   const { classes } = useResourceCardStyles();
   const { claim } = useAppSelector(authenticatedUserSelector);
+  const [deleteResource] = useDeleteResourceMutation();
 
   const handleOpenFile = () => {
     // TODO: trigger file download
     window.open(resource.fileUrl, "_blank");
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteResource({ classroomId, resourceId: resource.id }).unwrap();
+
+      showNotification({
+        title: "Success",
+        message: "Resource Deleted Successfully!",
+        autoClose: NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS,
+        color: "green",
+      });
+    } catch (error) {
+      const errorMessage = parseApiErrorMessage(error);
+
+      showNotification({
+        title: "Error",
+        message: errorMessage,
+        autoClose: NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS,
+        color: "red",
+      });
+    }
   };
 
   return (
@@ -36,7 +67,10 @@ const ResourceMaterialCard = ({ resource, classroomId }: TResourceMaterialCardTy
               </ActionIcon>
             </Menu.Target>
             <Menu.Dropdown>
-              <Menu.Item onClick={open}>Edit</Menu.Item>
+              <Menu.Item onClick={openEdit}>Edit</Menu.Item>
+              <Menu.Item color="red" onClick={openDelete}>
+                Delete
+              </Menu.Item>
             </Menu.Dropdown>
           </Menu>
         ) : null}
@@ -52,10 +86,15 @@ const ResourceMaterialCard = ({ resource, classroomId }: TResourceMaterialCardTy
         </Button>
       </Flex>
       <EditResourceModal
-        opened={opened}
-        close={close}
+        opened={editOpened}
+        close={closeEditModal}
         classroomId={classroomId}
         resource={resource}
+      />
+      <DeleteConfirmationModal
+        opened={deleteOpened}
+        close={closeDelete}
+        onDeleteAction={handleDelete}
       />
     </Box>
   );
