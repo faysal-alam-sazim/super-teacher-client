@@ -3,8 +3,10 @@ import { useDisclosure } from "@mantine/hooks";
 import { FaAngleDown, FaAngleRight } from "react-icons/fa";
 
 import LoadingComponent from "@/shared/components/LoadingComponent";
+import { useGetAssignmentsQuery } from "@/shared/redux/rtk-apis/assignments/assignments.api";
 import { useGetResourceMaterialsQuery } from "@/shared/redux/rtk-apis/resources/resources.api";
 
+import AssignmentCard from "../../components/AssignmentCard/AssignmentCard";
 import ResourceMaterialCard from "../../components/ResourceMaterialCard/ResourceMaterialCard";
 import AssignmentsCardContainer from "../AssignmentsCardContainer/AssignmentsCardContainer";
 import { useResourcesStyles } from "./ClassroomResourcesContainer.styles";
@@ -19,6 +21,9 @@ const ClassroomResourcesContainer = ({ classroomId }: TClassroomResourcesContain
     classroomId,
     { skip: !classroomId },
   );
+
+  const { data: fetchedAssignments, isLoading: isAssignmentsLoading } =
+    useGetAssignmentsQuery(classroomId);
 
   return (
     <>

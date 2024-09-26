@@ -33,7 +33,7 @@ const ResourceMaterialCard = ({ resource, classroomId }: TResourceMaterialCardTy
   const handleDelete = async () => {
     try {
       await deleteResource({ classroomId, resourceId: resource.id }).unwrap();
-
+      closeDelete();
       showNotification({
         title: "Success",
         message: "Resource Deleted Successfully!",
