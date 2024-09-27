@@ -4,13 +4,12 @@ import { showNotification } from "@mantine/notifications";
 import { BsThreeDots } from "react-icons/bs";
 import { FaBook, FaFilePdf } from "react-icons/fa";
 
-import { useAppSelector } from "@/shared/redux/hooks";
-import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
-import { ERole } from "@/shared/typedefs";
-
 import DeleteConfirmationModal from "@/shared/components/DeleteConfirmationModal";
 import { NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS } from "@/shared/constants/app.constants";
+import { useAppSelector } from "@/shared/redux/hooks";
+import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
 import { useDeleteResourceMutation } from "@/shared/redux/rtk-apis/resources/resources.api";
+import { ERole } from "@/shared/typedefs";
 import { parseApiErrorMessage } from "@/shared/utils/errors";
 
 import EditResourceModal from "../EditResourceModal/EditResourceModal";
@@ -19,7 +18,8 @@ import { TResourceMaterialCardType } from "./ResourceMaterialCard.types";
 
 const ResourceMaterialCard = ({ resource, classroomId }: TResourceMaterialCardType) => {
   const [editOpened, { open: openEdit, close: closeEditModal }] = useDisclosure(false);
-  const [deleteOpened, { open: openDelete, close: closeDelete }] = useDisclosure(false);
+  const [deleteModalOpened, { open: openDeleteModal, close: closeDeleteModal }] =
+    useDisclosure(false);
 
   const { classes } = useResourceCardStyles();
   const { claim } = useAppSelector(authenticatedUserSelector);
@@ -33,7 +33,7 @@ const ResourceMaterialCard = ({ resource, classroomId }: TResourceMaterialCardTy
   const handleDelete = async () => {
     try {
       await deleteResource({ classroomId, resourceId: resource.id }).unwrap();
-      closeDelete();
+      closeDeleteModal();
       showNotification({
         title: "Success",
         message: "Resource Deleted Successfully!",
@@ -68,7 +68,7 @@ const ResourceMaterialCard = ({ resource, classroomId }: TResourceMaterialCardTy
             </Menu.Target>
             <Menu.Dropdown>
               <Menu.Item onClick={openEdit}>Edit</Menu.Item>
-              <Menu.Item color="red" onClick={openDelete}>
+              <Menu.Item color="red" onClick={openDeleteModal}>
                 Delete
               </Menu.Item>
             </Menu.Dropdown>
@@ -92,8 +92,8 @@ const ResourceMaterialCard = ({ resource, classroomId }: TResourceMaterialCardTy
         resource={resource}
       />
       <DeleteConfirmationModal
-        opened={deleteOpened}
-        close={closeDelete}
+        opened={deleteModalOpened}
+        close={closeDeleteModal}
         onDeleteAction={handleDelete}
       />
     </Box>
