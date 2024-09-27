@@ -17,7 +17,7 @@ const AssignmentsCardContainer = ({ classroomId }: TAssignmentsCardContainerProp
   }
 
   if (fetchedAssignments?.length === 0) {
-    return <Text>No resources uploaded</Text>;
+    return <Text>No assignments uploaded</Text>;
   }
 
   return (

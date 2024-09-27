@@ -9,6 +9,7 @@ import AddAssignmnetModal from "../../components/AddAssignmentModal/AddAssignmen
 import AddResourceModal from "../../components/AddResourceModal/AddResourceModal";
 import ClassworkCreateButton from "../../components/ClassworkCreateButton/ClassworkCreateButton";
 import CreateExamModal from "../../components/CreateExamModal/CreateExamModal";
+import ClassroomsExamsContainer from "../ClassroomExamsContainer/ClassroomsExamsContainer";
 import ClassroomResourcesContainer from "../ClassroomResourcesContainer/ClassroomResourcesContainer";
 import { useClassworkContainerStyles } from "./ClassroomClassworkContainer.styles";
 import { TClassroomClassworkContainerProps } from "./ClassroomClassworkContainer.types";
@@ -42,6 +43,7 @@ const ClassroomClassworkContainer = ({ classroom }: TClassroomClassworkContainer
         close={closeAssignmentModal}
         classroomId={classroom.id}
       />
+      <ClassroomsExamsContainer classroomId={classroom.id} />
       <ClassroomResourcesContainer classroomId={classroom.id} />
     </Box>
   );
