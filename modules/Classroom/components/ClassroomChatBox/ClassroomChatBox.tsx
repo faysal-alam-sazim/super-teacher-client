@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import { Box, Button, Flex, Text, Textarea, Title } from "@mantine/core";
+import { ActionIcon, Box, Button, FileButton, Flex, Text, Textarea, Title } from "@mantine/core";
+import { FaPaperclip } from "react-icons/fa";
+import { LuX } from "react-icons/lu";
 
 import { useWebsocket } from "@/shared/hooks/useWebsocket";
 import { useAppSelector } from "@/shared/redux/hooks";
@@ -21,6 +23,7 @@ const ClassroomChatBox = ({ classroom }: TClassroomChatBoxProps) => {
   const [message, setMessage] = useState<string>("");
   const [messages, setMessages] = useState<TMessage[]>([]);
   const [validationMessage, setValidationMessage] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
 
   const [addMessage] = useAddMessageMutation();
   const { data: savedMessages, isLoading } = useGetAllMessagesQuery(
@@ -33,7 +36,7 @@ const ClassroomChatBox = ({ classroom }: TClassroomChatBoxProps) => {
   const { userId } = useAppSelector(authenticatedUserSelector);
   const { classes } = useClassroomChatBoxStyles();
 
-  const newSocket = useWebsocket({ path: "/ws" });
+  const newSocket = useWebsocket({ path: "/ws", shouldAuthenticate: true, autoConnect: true });
 
   useEffect(() => {
     if (!isLoading) {
@@ -62,12 +65,13 @@ const ClassroomChatBox = ({ classroom }: TClassroomChatBoxProps) => {
     setValidationMessage(null);
     const messageToAdd: TCreateMessageDto = {
       message,
-      sender: userId,
+      sender: userId || -1,
     };
 
     try {
-      await addMessage({ id: classroom.id, newMessage: messageToAdd }).unwrap();
+      await addMessage({ id: classroom.id, newMessage: messageToAdd, attachment: file }).unwrap();
       setMessage("");
+      setFile(null);
     } catch (error) {
       console.error(error);
     }
@@ -85,14 +89,36 @@ const ClassroomChatBox = ({ classroom }: TClassroomChatBoxProps) => {
         <Text p={4} size={"sm"} color="red">
           {validationMessage}
         </Text>
-        <Flex justify={"end"} gap={6} mt={6}>
-          <Button onClick={() => setMessage("")} className={classes.button}>
-            Revert
-          </Button>
-          <Button onClick={handlePost} className={classes.button}>
-            Post
-          </Button>
-        </Flex>
+
+        <Box className={classes.buttonsContainer}>
+          {file ? (
+            <Flex>
+              <Text color="green">{file.name}</Text>{" "}
+              <ActionIcon onClick={() => setFile(null)}>
+                <LuX />
+              </ActionIcon>
+            </Flex>
+          ) : (
+            <FileButton
+              onChange={setFile}
+              accept={"application/pdf, image/png, image/jpg, image/jpeg"}
+            >
+              {(props) => (
+                <Button {...props} leftIcon={<FaPaperclip />} className={classes.attachmentButton}>
+                  Add Attachment
+                </Button>
+              )}
+            </FileButton>
+          )}
+          <Flex gap={12}>
+            <Button onClick={() => setMessage("")} className={classes.button}>
+              Revert
+            </Button>
+            <Button onClick={handlePost} className={classes.button}>
+              Post
+            </Button>
+          </Flex>
+        </Box>
       </Box>
       <Box p={12}>
         {messages.length > 0 ? (

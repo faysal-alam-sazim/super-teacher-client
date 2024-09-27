@@ -8,10 +8,24 @@ export const useClassroomChatBoxStyles = createStyles((theme) => ({
     height: "max-content",
   },
 
+  buttonsContainer: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+  },
+
   button: {
     backgroundColor: theme.colors.dark[6],
     "&:hover": {
       backgroundColor: "gray",
+    },
+  },
+
+  attachmentButton: {
+    backgroundColor: theme.colors.green[7],
+    "&:hover": {
+      backgroundColor: theme.colors.green[5],
     },
   },
 }));

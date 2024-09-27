@@ -11,4 +11,12 @@ export const useChatStyles = createStyles((theme) => ({
   time: {
     color: theme.colors.gray[6],
   },
+
+  downloadButton: {
+    marginTop: 20,
+    background: theme.colors.dark[8],
+    "&:hover": {
+      background: theme.colors.dark[4],
+    },
+  },
 }));
