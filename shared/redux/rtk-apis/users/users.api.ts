@@ -24,8 +24,19 @@ const usersApi = projectApi.injectEndpoints({
       }),
       transformResponse: (response: TApiResponse<TLoginResponse>) => response.data,
     }),
+
+    getUserProfile: builder.query<TUser, void>({
+      query: () => "users/profile",
+      transformResponse: (response: TApiResponse<TUser>) => response.data,
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useMeQuery, useLazyMeQuery, useRegisterMutation, useGetStudentsQuery } = usersApi;
+export const {
+  useMeQuery,
+  useLazyMeQuery,
+  useRegisterMutation,
+  useGetStudentsQuery,
+  useGetUserProfileQuery,
+} = usersApi;

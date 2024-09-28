@@ -2,7 +2,7 @@ import React from "react";
 
 import { useRouter } from "next/router";
 
-import { Box, Button, Flex, Text } from "@mantine/core";
+import { Box, Button, Flex, Menu, Text } from "@mantine/core";
 import { FaPlus } from "react-icons/fa";
 
 import { useAppSelector } from "@/shared/redux/hooks";
@@ -28,9 +28,18 @@ const NavigationBar = ({ open }: INavigationBarProps) => {
         {user?.claim === ERole.TEACHER ? (
           <FaPlus style={{ cursor: "pointer" }} onClick={open} />
         ) : null}
-        <Button variant="outline" c={"white"} sx={{ borderColor: "white" }}>
-          {user?.firstName}
-        </Button>
+
+        <Menu shadow="xl" offset={-1} withArrow arrowPosition="center" position="bottom-end">
+          <Menu.Target>
+            <Button variant="outline" c={"white"} sx={{ borderColor: "white" }}>
+              {user?.firstName}
+            </Button>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Item onClick={() => router.push("/users/profile")}>Profile</Menu.Item>
+            <Menu.Item>Logout</Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
       </Flex>
     </Box>
   );
