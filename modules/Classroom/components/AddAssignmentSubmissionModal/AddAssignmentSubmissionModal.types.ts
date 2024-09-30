@@ -1,6 +1,7 @@
 export type TAssignmentSubmissionsModalProps = {
   opened: boolean;
   close: () => void;
+  classroomId: number;
   assignmentId: number;
 };
 
