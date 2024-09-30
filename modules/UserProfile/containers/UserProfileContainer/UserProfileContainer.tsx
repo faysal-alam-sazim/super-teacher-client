@@ -1,6 +1,7 @@
 import { Box, Button, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { FaEdit } from "react-icons/fa";
+import { LuX } from "react-icons/lu";
 
 import NavigationBar from "@/modules/components/Navbar/NavigationBar";
 import ClassroomCreatingModal from "@/modules/UserDashboard/components/ClassroomCreatingModal/ClassroomCreatingModal";
@@ -10,6 +11,7 @@ import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer"
 import { useGetUserProfileQuery } from "@/shared/redux/rtk-apis/users/users.api";
 import { ERole } from "@/shared/typedefs";
 
+import EditTeacherProfile from "../../components/EditTeacherProfile/EditTeacherProfile";
 import StudentProfileInfo from "../../components/StudentProfileInfo/StudentProfileInfo";
 import TeacherProfileInfo from "../../components/TeacherProfileInfo/TeacherProfileInfo";
 import { useUserProfileContainerStyles } from "./UserProfileContainer.styles";
@@ -19,6 +21,7 @@ const UserProfileContainer = () => {
   const { classes } = useUserProfileContainerStyles();
   const { claim } = useAppSelector(authenticatedUserSelector);
   const { data, isLoading } = useGetUserProfileQuery();
+  const [editProfileOpened, { toggle: toggleEditProfileOpened }] = useDisclosure(false);
 
   return (
     <>
@@ -37,16 +40,39 @@ const UserProfileContainer = () => {
               <Button variant="outline" className={classes.button}>
                 Reset Password
               </Button>
-              <Button variant="outline" className={classes.button}>
-                <FaEdit />
-              </Button>
+              {editProfileOpened ? (
+                <Button
+                  variant="outline"
+                  className={classes.button}
+                  onClick={toggleEditProfileOpened}
+                >
+                  <LuX />
+                </Button>
+              ) : (
+                <Button
+                  variant="outline"
+                  className={classes.button}
+                  onClick={toggleEditProfileOpened}
+                >
+                  <FaEdit />
+                </Button>
+              )}
             </Box>
           </Box>
-          {claim === ERole.TEACHER ? (
+          {claim === ERole.TEACHER && !editProfileOpened ? (
             <TeacherProfileInfo userProfile={data} />
-          ) : (
+          ) : null}
+
+          {claim === ERole.STUDENT && !editProfileOpened ? (
             <StudentProfileInfo userProfile={data} />
-          )}
+          ) : null}
+
+          {claim === ERole.TEACHER && editProfileOpened ? (
+            <EditTeacherProfile
+              userProfile={data}
+              toggleEditProfileOpened={toggleEditProfileOpened}
+            />
+          ) : null}
         </Box>
       )}
     </>
