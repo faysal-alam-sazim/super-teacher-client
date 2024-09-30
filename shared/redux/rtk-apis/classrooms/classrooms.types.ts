@@ -19,3 +19,11 @@ export type TEnrollMentInfo = {
   classroomId: TClassroom;
   studentId: TStudent;
 };
+
+export type TEditClassroomDto = {
+  title?: string;
+  subject?: string;
+  classTime?: Date;
+  days?: string[];
+  meetLink?: string;
+};

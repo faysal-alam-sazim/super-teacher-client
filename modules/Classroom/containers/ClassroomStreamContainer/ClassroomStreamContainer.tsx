@@ -4,12 +4,7 @@ import { TClassroomStreamContainerProps } from "./ClassroomStreamContainer.types
 
 const ClassroomStreamContainer = ({ classroom }: TClassroomStreamContainerProps) => (
   <>
-    <ClassroomBanner
-      title={classroom.title}
-      subject={classroom.subject}
-      classTime={classroom.classTime}
-      days={classroom.days}
-    />
+    <ClassroomBanner classroom={classroom} />
     <ClassroomStreamBody classroom={classroom} />
   </>
 );
