@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { Box, Button, Flex, Menu, Text } from "@mantine/core";
 import { FaPlus } from "react-icons/fa";
 
+import { useLogout } from "@/shared/hooks/useLogout";
 import { useAppSelector } from "@/shared/redux/hooks";
 import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
 import { ERole } from "@/shared/typedefs";
@@ -15,6 +16,7 @@ import { INavigationBarProps } from "./NavigationBar.types";
 const NavigationBar = ({ open }: INavigationBarProps) => {
   const user = useAppSelector(authenticatedUserSelector);
   const router = useRouter();
+  const { logout } = useLogout();
 
   return (
     <Box h={"9vh"} bg={"#011733"} className={classes["navlinks"]}>
@@ -37,7 +39,7 @@ const NavigationBar = ({ open }: INavigationBarProps) => {
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Item onClick={() => router.push("/users/profile")}>Profile</Menu.Item>
-            <Menu.Item>Logout</Menu.Item>
+            <Menu.Item onClick={logout}>Logout</Menu.Item>
           </Menu.Dropdown>
         </Menu>
       </Flex>
