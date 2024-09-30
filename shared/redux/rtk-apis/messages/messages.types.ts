@@ -15,5 +15,5 @@ export type TMessage = {
 
 export type TCreateMessageDto = {
   message: string;
-  sender: number | null;
+  sender: number;
 };

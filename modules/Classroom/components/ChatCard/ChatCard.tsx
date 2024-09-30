@@ -1,8 +1,9 @@
 import React from "react";
 
-import { Card, Flex, Text, Title } from "@mantine/core";
+import { Badge, Button, Card, Flex, Text, Title } from "@mantine/core";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { FaFilePdf } from "react-icons/fa";
 
 import { useAppSelector } from "@/shared/redux/hooks";
 import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
@@ -18,15 +19,33 @@ const ChatCard = ({ message }: TChatCardProps) => {
   const { classes } = useChatStyles();
   const fullName = message.sender.firstName + " " + message.sender.lastName;
 
+  const handleOpenFile = () => {
+    window.open(message.attachmentUrl, "_blank");
+  };
+
+  const isTeacher = message?.sender?.role === ERole.TEACHER;
+
   return (
     <Card className={classes.card}>
       <Flex direction={"column"} pb={"md"}>
-        <Title order={5} color={message?.sender?.role === ERole.TEACHER ? "green" : "inherit"}>
-          {fullName + (userId === message?.sender?.id ? " (you)" : "")}
-        </Title>
+        <Flex align={"center"} gap={12}>
+          <Title order={5} color="inherit">
+            {fullName + (userId === message?.sender?.id ? " (you)" : "")}
+          </Title>
+          {isTeacher ? <Badge size="xs">Teacher</Badge> : null}
+        </Flex>
         <Text className={classes.time}>{dayjs(message.createdAt).fromNow()}</Text>
       </Flex>
       <Text size={"md"}>{message.message}</Text>
+      {message.attachmentUrl ? (
+        <Button
+          className={classes.downloadButton}
+          rightIcon={<FaFilePdf />}
+          onClick={handleOpenFile}
+        >
+          Download
+        </Button>
+      ) : null}
     </Card>
   );
 };

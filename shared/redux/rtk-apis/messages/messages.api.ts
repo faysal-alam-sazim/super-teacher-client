@@ -11,12 +11,26 @@ const messagesApi = projectApi.injectEndpoints({
       transformResponse: (response: TApiResponse<TMessage[]>) => response.data,
     }),
 
-    addMessage: builder.mutation<TMessage, { id: number; newMessage: TCreateMessageDto }>({
-      query: ({ id, ...rest }) => ({
-        url: `classrooms/${id}/messages`,
-        method: "POST",
-        body: rest.newMessage,
-      }),
+    addMessage: builder.mutation<
+      TMessage,
+      { id: number; newMessage: TCreateMessageDto; attachment: File | null }
+    >({
+      query: ({ id, newMessage, attachment }) => {
+        const formData = new FormData();
+
+        if (attachment) {
+          formData.append("file", attachment);
+        }
+
+        formData.append("message", newMessage.message);
+        formData.append("sender", newMessage.sender.toString());
+
+        return {
+          url: `classrooms/${id}/messages`,
+          method: "POST",
+          body: formData,
+        };
+      },
       invalidatesTags: (_result, _error, { id }) => [{ type: "ClassroomMessages", id: id }],
       transformResponse: (response: TApiResponse<TMessage>) => response.data,
     }),
