@@ -28,8 +28,9 @@ const assignmentSubmissionsApi = projectApi.injectEndpoints({
           body: formData,
         };
       },
-      invalidatesTags: (_result, _error, { assignmentId }) => [
+      invalidatesTags: (_result, _error, { assignmentId, classroomId }) => [
         { type: "AssignmentSubmissions", assignmentId },
+        { type: "ClassroomAssignments", id: classroomId },
       ],
       transformResponse: (response: TApiResponse<TSubmission>) => response.data,
     }),
