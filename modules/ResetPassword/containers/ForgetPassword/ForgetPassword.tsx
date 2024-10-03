@@ -12,6 +12,8 @@ import { TForgetPasswordProps } from "./ForgetPassword.types";
 const ForgetPassword = ({ opened, close }: TForgetPasswordProps) => {
   const { classes } = useForgetPasswordStyles();
   const [renderingField, setRenderingType] = useState(ERenderFieldType.EMAIL);
+  const [email, setEmail] = useState("");
+  const [otp, setOtp] = useState("");
 
   return (
     <Modal opened={opened} onClose={close} centered>
@@ -19,13 +21,18 @@ const ForgetPassword = ({ opened, close }: TForgetPasswordProps) => {
         Forget Password
       </Title>
       {renderingField === ERenderFieldType.EMAIL ? (
-        <VerifyEmailForm close={close} setRenderingType={setRenderingType} />
+        <VerifyEmailForm close={close} setRenderingType={setRenderingType} setEmail={setEmail} />
       ) : null}
       {renderingField === ERenderFieldType.OTP ? (
-        <VerifyOtpForm setRenderingType={setRenderingType} />
+        <VerifyOtpForm setRenderingType={setRenderingType} setOtp={setOtp} email={email} />
       ) : null}
       {renderingField === ERenderFieldType.PASSWORD ? (
-        <UpdatePasswordForm close={close} setRenderingType={setRenderingType} />
+        <UpdatePasswordForm
+          close={close}
+          setRenderingType={setRenderingType}
+          email={email}
+          otp={otp}
+        />
       ) : null}
     </Modal>
   );

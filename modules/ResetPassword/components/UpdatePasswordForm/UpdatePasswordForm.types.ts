@@ -3,6 +3,8 @@ import { ERenderFieldType } from "../../containers/ForgetPassword/ForgetPassword
 export type TUpdatePasswordFormProps = {
   close: () => void;
   setRenderingType: (value: ERenderFieldType) => void;
+  email: string;
+  otp: string;
 };
 
 export type TUpdatePasswordFormData = {

@@ -3,6 +3,7 @@ import { ERenderFieldType } from "../../containers/ForgetPassword/ForgetPassword
 export type TVerifyEmailFormProps = {
   close: () => void;
   setRenderingType: (value: ERenderFieldType) => void;
+  setEmail: (value: string) => void;
 };
 
 export type TVerifyEmailForm = {

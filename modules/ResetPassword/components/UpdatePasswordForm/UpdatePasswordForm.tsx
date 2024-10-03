@@ -3,10 +3,11 @@ import { Controller, useForm } from "react-hook-form";
 
 import { ERenderFieldType } from "../../containers/ForgetPassword/ForgetPassword.enums";
 import { useForgetPasswordStyles } from "../../containers/ForgetPassword/ForgetPassword.styles";
+import useUpdatePasswordForm from "./UpdatePasswordForm.hooks";
 import { updatePasswordFormSchemaResolver } from "./UpdatePasswordForm.schema";
 import { TUpdatePasswordFormData, TUpdatePasswordFormProps } from "./UpdatePasswordForm.types";
 
-const UpdatePasswordForm = ({ close, setRenderingType }: TUpdatePasswordFormProps) => {
+const UpdatePasswordForm = ({ close, setRenderingType, email, otp }: TUpdatePasswordFormProps) => {
   const {
     control,
     reset,
@@ -19,11 +20,14 @@ const UpdatePasswordForm = ({ close, setRenderingType }: TUpdatePasswordFormProp
 
   const { classes } = useForgetPasswordStyles();
 
+  const { onSubmit, isLoading } = useUpdatePasswordForm();
+
   const handleOnSubmit = (data: TUpdatePasswordFormData) => {
-    // Add api call method
-    console.log(data);
-    close();
-    setRenderingType(ERenderFieldType.EMAIL);
+    onSubmit(data, email, otp);
+    if (!isLoading) {
+      close();
+      setRenderingType(ERenderFieldType.EMAIL);
+    }
   };
 
   const handleCancelButton = () => {
@@ -66,7 +70,7 @@ const UpdatePasswordForm = ({ close, setRenderingType }: TUpdatePasswordFormProp
         <Button bg={"green"} onClick={handleCancelButton}>
           Cancel
         </Button>
-        <Button bg={"green"} type="submit">
+        <Button loading={isLoading} bg={"green"} type="submit">
           Submit
         </Button>
       </Flex>

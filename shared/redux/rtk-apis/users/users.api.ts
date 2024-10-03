@@ -2,7 +2,12 @@ import { IUserDto, TApiResponse } from "@/shared/typedefs";
 
 import projectApi from "../api.config";
 import { TLoginResponse, TTokenizedUser } from "../auth/auth.types";
-import { TUpdateUserDto, TUser } from "./users.types";
+import {
+  TUpdateUserDto,
+  TUpdatePasswordApiResponse,
+  TUpdatePasswordDto,
+  TUser,
+} from "./users.types";
 
 const usersApi = projectApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -40,6 +45,14 @@ const usersApi = projectApi.injectEndpoints({
       invalidatesTags: ["UsersProfile"],
       transformResponse: (response: TApiResponse<TTokenizedUser>) => response.data,
     }),
+
+    updatePassword: builder.mutation<TUpdatePasswordApiResponse, TUpdatePasswordDto>({
+      query: (updatePasswordDto) => ({
+        url: "users/update-password",
+        method: "PATCH",
+        body: updatePasswordDto,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
@@ -51,4 +64,5 @@ export const {
   useGetStudentsQuery,
   useGetUserProfileQuery,
   useUpdateUserMutation,
+  useUpdatePasswordMutation,
 } = usersApi;

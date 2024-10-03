@@ -65,3 +65,15 @@ export type TUpdateUserDto = {
   teacherInput?: TTeacher;
   studentInput?: TUpdateStudentDto;
 };
+
+export type TUpdatePasswordDto = {
+  email: string;
+  otp: string;
+  newPassword: string;
+};
+
+export type TUpdatePasswordApiResponse = {
+  status: number;
+  message: string;
+  data: string;
+};
