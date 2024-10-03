@@ -3,6 +3,7 @@ import { IUserDto, TApiResponse } from "@/shared/typedefs";
 import projectApi from "../api.config";
 import { TLoginResponse, TTokenizedUser } from "../auth/auth.types";
 import {
+  TResetPasswordDto,
   TUpdateUserDto,
   TUpdatePasswordApiResponse,
   TUpdatePasswordDto,
@@ -53,6 +54,15 @@ const usersApi = projectApi.injectEndpoints({
         body: updatePasswordDto,
       }),
     }),
+
+    resetPassword: builder.mutation<TUser, TResetPasswordDto>({
+      query: (resetPasswordDto) => ({
+        url: "users/reset-password",
+        method: "PATCH",
+        body: resetPasswordDto,
+      }),
+      transformResponse: (response: TApiResponse<TUser>) => response.data,
+    }),
   }),
   overrideExisting: false,
 });
@@ -65,4 +75,5 @@ export const {
   useGetUserProfileQuery,
   useUpdateUserMutation,
   useUpdatePasswordMutation,
+  useResetPasswordMutation,
 } = usersApi;
