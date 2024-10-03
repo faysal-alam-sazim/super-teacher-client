@@ -4,16 +4,25 @@ import { Anchor, Flex, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
 import ChooseRole from "@/modules/HomePage/components/ChooseRole/ChooseRole";
+import ForgetPassword from "@/modules/ResetPassword/containers/ForgetPassword/ForgetPassword";
 
 import LoginForm from "../components/LoginForm";
+import { useLoginContainerStyles } from "./LoginContainer.styles";
 
 const LoginContainer = () => {
   const [opened, { open, close }] = useDisclosure(false);
+  const { classes } = useLoginContainerStyles();
+
+  const [
+    forgetPasswordModalOpenend,
+    { open: openForgetPasswordModal, close: closeForgetPasswordModal },
+  ] = useDisclosure(false);
+
   return (
     <>
       <Flex justify={"center"} align={"center"} mih={"100vh"} direction={"column"}>
         <LoginForm />
-        <Text fw={400} ta="center" my="xs" size="md" c="green">
+        <Text className={classes.text} onClick={openForgetPasswordModal}>
           Forgot Password?
         </Text>
 
@@ -24,7 +33,7 @@ const LoginContainer = () => {
           </Anchor>
         </Text>
       </Flex>
-
+      <ForgetPassword opened={forgetPasswordModalOpenend} close={closeForgetPasswordModal} />
       <ChooseRole opened={opened} close={close} />
     </>
   );
