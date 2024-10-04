@@ -12,7 +12,7 @@ const ClassroomStreamBody = ({ classroom }: TClassroomStreamBodyProps) => {
   return (
     <Box className={classes.streamBody}>
       <Box className={classes.classInfo}>
-        <ClassroomMeetlink meetlink={classroom.meetLink} />
+        <ClassroomMeetlink meetlink={classroom.meetLink} classroomId={classroom.id} />
         <Box className={[classes.boxDetails, classes.detailsContainer].join(" ")}>
           <SimpleGrid p={"xs"}>
             <Title order={4}>Details</Title>
