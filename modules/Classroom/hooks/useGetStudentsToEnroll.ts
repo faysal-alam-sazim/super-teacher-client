@@ -23,7 +23,7 @@ const useGetStudentsToEnroll = (classroomId: string) => {
 
       students = notEnrolledStudentUser.map((user) => ({
         value: user.student?.id.toString() || "-1",
-        label: `${user.firstName} ${user.lastName}`,
+        label: `${user.firstName} ${user.lastName} (${user.email})`,
       }));
     }
   }
