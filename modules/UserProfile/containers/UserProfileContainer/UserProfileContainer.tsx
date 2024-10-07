@@ -10,6 +10,7 @@ import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer"
 import { useGetUserProfileQuery } from "@/shared/redux/rtk-apis/users/users.api";
 import { ERole } from "@/shared/typedefs";
 
+import StudentProfileInfo from "../../components/StudentProfileInfo/StudentProfileInfo";
 import TeacherProfileInfo from "../../components/TeacherProfileInfo/TeacherProfileInfo";
 import { useUserProfileContainerStyles } from "./UserProfileContainer.styles";
 
@@ -41,7 +42,11 @@ const UserProfileContainer = () => {
               </Button>
             </Box>
           </Box>
-          {claim === ERole.TEACHER ? <TeacherProfileInfo userProfile={data} /> : null}
+          {claim === ERole.TEACHER ? (
+            <TeacherProfileInfo userProfile={data} />
+          ) : (
+            <StudentProfileInfo userProfile={data} />
+          )}
         </Box>
       )}
     </>
