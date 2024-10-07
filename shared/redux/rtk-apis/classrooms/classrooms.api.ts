@@ -1,5 +1,5 @@
 import { TClassroomDetailsDto } from "@/modules/UserDashboard/components/ClassroomCreatingModal/ClassroomCreatingModal.types";
-import { TApiResponse } from "@/shared/typedefs";
+import { TApiResponse, TDeleteApiResponse } from "@/shared/typedefs";
 
 import projectApi from "../api.config";
 import { TStudent } from "../users/users.types";
@@ -68,6 +68,14 @@ const classroomsApi = projectApi.injectEndpoints({
       }),
       invalidatesTags: (_result, _error, { classroomId }) => [{ type: "Classrooms", classroomId }],
     }),
+
+    deleteClassroom: builder.mutation<TDeleteApiResponse, number>({
+      query: (classroomId) => ({
+        url: `classrooms/${classroomId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (_result, _error, classroomId) => [{ type: "Classrooms", classroomId }],
+    }),
   }),
   overrideExisting: false,
 });
@@ -80,4 +88,5 @@ export const {
   useEnrollStudentMutation,
   useRemoveStudentMutation,
   useEditClassroomMutation,
+  useDeleteClassroomMutation,
 } = classroomsApi;
