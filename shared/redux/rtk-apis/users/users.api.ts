@@ -2,7 +2,7 @@ import { IUserDto, TApiResponse } from "@/shared/typedefs";
 
 import projectApi from "../api.config";
 import { TLoginResponse, TTokenizedUser } from "../auth/auth.types";
-import { TUser } from "./users.types";
+import { TUpdateUserDto, TUser } from "./users.types";
 
 const usersApi = projectApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -27,7 +27,18 @@ const usersApi = projectApi.injectEndpoints({
 
     getUserProfile: builder.query<TUser, void>({
       query: () => "users/profile",
+      providesTags: ["UsersProfile"],
       transformResponse: (response: TApiResponse<TUser>) => response.data,
+    }),
+
+    updateUser: builder.mutation<TTokenizedUser, TUpdateUserDto>({
+      query: (updatedUser) => ({
+        url: "users/profile",
+        method: "PATCH",
+        body: updatedUser,
+      }),
+      invalidatesTags: ["UsersProfile"],
+      transformResponse: (response: TApiResponse<TTokenizedUser>) => response.data,
     }),
   }),
   overrideExisting: false,
@@ -39,4 +50,5 @@ export const {
   useRegisterMutation,
   useGetStudentsQuery,
   useGetUserProfileQuery,
+  useUpdateUserMutation,
 } = usersApi;

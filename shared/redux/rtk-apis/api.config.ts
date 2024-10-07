@@ -6,6 +6,7 @@ export const projectApi = createApi({
   reducerPath: "projectApi",
   baseQuery,
   tagTypes: [
+    "UsersProfile",
     "Classrooms",
     "Students",
     "EnrolledStudents",
