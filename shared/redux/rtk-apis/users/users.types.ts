@@ -77,3 +77,8 @@ export type TUpdatePasswordApiResponse = {
   message: string;
   data: string;
 };
+
+export type TResetPasswordDto = {
+  oldPassword: string;
+  newPassword: string;
+};

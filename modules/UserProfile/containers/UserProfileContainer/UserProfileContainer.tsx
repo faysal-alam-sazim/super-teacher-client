@@ -13,6 +13,7 @@ import { ERole } from "@/shared/typedefs";
 
 import EditStudentProfie from "../../components/EditStudentProfile/EditStudentProfie";
 import EditTeacherProfile from "../../components/EditTeacherProfile/EditTeacherProfile";
+import ResetPasswordModal from "../../components/ResetPasswordModal/ResetPasswordModal";
 import StudentProfileInfo from "../../components/StudentProfileInfo/StudentProfileInfo";
 import TeacherProfileInfo from "../../components/TeacherProfileInfo/TeacherProfileInfo";
 import { useUserProfileContainerStyles } from "./UserProfileContainer.styles";
@@ -23,6 +24,10 @@ const UserProfileContainer = () => {
   const { claim } = useAppSelector(authenticatedUserSelector);
   const { data, isLoading } = useGetUserProfileQuery();
   const [editProfileOpened, { toggle: toggleEditProfileOpened }] = useDisclosure(false);
+  const [
+    resetPasswordModalOpened,
+    { open: openResetPasswordModal, close: closeResetPasswordModal },
+  ] = useDisclosure(false);
 
   return (
     <>
@@ -38,7 +43,7 @@ const UserProfileContainer = () => {
           </Title>
           <Box w={"100%"} mb={16}>
             <Box className={classes.buttonContainer}>
-              <Button variant="outline" className={classes.button}>
+              <Button variant="outline" className={classes.button} onClick={openResetPasswordModal}>
                 Reset Password
               </Button>
               {editProfileOpened ? (
@@ -80,6 +85,7 @@ const UserProfileContainer = () => {
               toggleEditProfileOpenend={toggleEditProfileOpened}
             />
           ) : null}
+          <ResetPasswordModal opened={resetPasswordModalOpened} close={closeResetPasswordModal} />
         </Box>
       )}
     </>
