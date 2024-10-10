@@ -3,10 +3,11 @@ import { Controller, useForm } from "react-hook-form";
 
 import { ERenderFieldType } from "../../containers/ForgetPassword/ForgetPassword.enums";
 import { useForgetPasswordStyles } from "../../containers/ForgetPassword/ForgetPassword.styles";
+import useVerifyOtpForm from "./VerifyOtpForm.hooks";
 import { verifyOtpSchemaResolver } from "./VerifyOtpForm.schema";
 import { TVerifyOtpForm, TVerifyOtpFormProps } from "./VerifyOtpForm.types";
 
-const VerifyOtpForm = ({ setRenderingType }: TVerifyOtpFormProps) => {
+const VerifyOtpForm = ({ setRenderingType, email, setOtp }: TVerifyOtpFormProps) => {
   const {
     control,
     setValue,
@@ -19,10 +20,16 @@ const VerifyOtpForm = ({ setRenderingType }: TVerifyOtpFormProps) => {
 
   const { classes } = useForgetPasswordStyles();
 
+  const { onSubmit, isLoading } = useVerifyOtpForm();
+
   const handleOnSubmit = (data: TVerifyOtpForm) => {
-    // Add api call method
-    console.log(data);
-    setRenderingType(ERenderFieldType.PASSWORD);
+    onSubmit(data, email);
+
+    setOtp(data.otp);
+
+    if (!isLoading) {
+      setRenderingType(ERenderFieldType.PASSWORD);
+    }
   };
 
   const handleBackButton = () => {
@@ -50,7 +57,7 @@ const VerifyOtpForm = ({ setRenderingType }: TVerifyOtpFormProps) => {
         <Button bg={"green"} onClick={handleBackButton}>
           Back
         </Button>
-        <Button bg={"green"} type="submit">
+        <Button loading={isLoading} bg={"green"} type="submit">
           Submit
         </Button>
       </Flex>

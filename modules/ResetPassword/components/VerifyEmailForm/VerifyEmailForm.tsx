@@ -3,10 +3,11 @@ import { Controller, useForm } from "react-hook-form";
 
 import { ERenderFieldType } from "../../containers/ForgetPassword/ForgetPassword.enums";
 import { useForgetPasswordStyles } from "../../containers/ForgetPassword/ForgetPassword.styles";
+import useVerifyEmailForm from "./VerifyEmailForm.hooks";
 import { verifyEmailFormSchemaResolver } from "./VerifyEmailForm.schema";
 import { TVerifyEmailForm, TVerifyEmailFormProps } from "./VerifyEmailForm.types";
 
-const VerifyEmailForm = ({ close, setRenderingType }: TVerifyEmailFormProps) => {
+const VerifyEmailForm = ({ close, setRenderingType, setEmail }: TVerifyEmailFormProps) => {
   const {
     control,
     setValue,
@@ -19,15 +20,19 @@ const VerifyEmailForm = ({ close, setRenderingType }: TVerifyEmailFormProps) => 
   });
 
   const { classes } = useForgetPasswordStyles();
+  const { onSubmit, isLoading } = useVerifyEmailForm();
 
   const handleOnSubmit = (data: TVerifyEmailForm) => {
-    // Add api call method
-    console.log(data);
-    setRenderingType(ERenderFieldType.OTP);
+    onSubmit(data);
+    if (!isLoading) {
+      setEmail(data.email);
+      setRenderingType(ERenderFieldType.OTP);
+    }
   };
 
   const handleCancelButton = () => {
     setValue("email", "");
+    setEmail("");
     reset();
     close();
   };
@@ -52,7 +57,7 @@ const VerifyEmailForm = ({ close, setRenderingType }: TVerifyEmailFormProps) => 
         <Button bg={"green"} onClick={handleCancelButton}>
           Cancel
         </Button>
-        <Button bg={"green"} type="submit">
+        <Button loading={isLoading} bg={"green"} type="submit">
           Submit
         </Button>
       </Flex>
