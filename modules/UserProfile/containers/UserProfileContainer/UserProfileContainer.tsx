@@ -11,6 +11,7 @@ import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer"
 import { useGetUserProfileQuery } from "@/shared/redux/rtk-apis/users/users.api";
 import { ERole } from "@/shared/typedefs";
 
+import EditStudentProfie from "../../components/EditStudentProfile/EditStudentProfie";
 import EditTeacherProfile from "../../components/EditTeacherProfile/EditTeacherProfile";
 import StudentProfileInfo from "../../components/StudentProfileInfo/StudentProfileInfo";
 import TeacherProfileInfo from "../../components/TeacherProfileInfo/TeacherProfileInfo";
@@ -71,6 +72,12 @@ const UserProfileContainer = () => {
             <EditTeacherProfile
               userProfile={data}
               toggleEditProfileOpened={toggleEditProfileOpened}
+            />
+          ) : null}
+          {claim === ERole.STUDENT && editProfileOpened ? (
+            <EditStudentProfie
+              userProfile={data}
+              toggleEditProfileOpenend={toggleEditProfileOpened}
             />
           ) : null}
         </Box>

@@ -1,4 +1,11 @@
-import { EGender, EHighestEducationLevel, ERole } from "@/shared/typedefs";
+import {
+  EDegree,
+  EEducationLevel,
+  EGender,
+  EHighestEducationLevel,
+  EMedium,
+  ERole,
+} from "@/shared/typedefs";
 
 export type TUserProfile = {
   id: number;
@@ -12,9 +19,9 @@ export type TStudent = {
   id: number;
   address: string;
   phoneNumber: string;
-  educationLevel: string;
-  medium: string;
-  degree: string;
+  educationLevel: EEducationLevel;
+  medium: EMedium;
+  degree: EDegree;
   class: string;
   degreeName: string;
   semesterYear: string;
@@ -40,10 +47,21 @@ export type TUser = {
   student?: TStudent;
 };
 
+export type TUpdateStudentDto = {
+  address: string;
+  phoneNumber: string;
+  educationLevel: EEducationLevel;
+  medium?: EMedium;
+  degree?: EDegree;
+  class?: string;
+  degreeName?: string;
+  semesterYear?: string;
+};
+
 export type TUpdateUserDto = {
   firstName?: string;
   lastName?: string;
   gender?: EGender;
   teacherInput?: TTeacher;
-  studentInput?: TStudent;
+  studentInput?: TUpdateStudentDto;
 };
