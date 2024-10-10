@@ -8,7 +8,7 @@ import {
 import { parseApiErrorMessage } from "@/shared/utils/errors";
 
 const useEnrollmentApiCall = () => {
-  const [enrollStudent] = useEnrollStudentMutation();
+  const [enrollStudent, { isLoading: isEnrollmentLoading }] = useEnrollStudentMutation();
   const [deleteStudent] = useRemoveStudentMutation();
 
   const addStudent = async (classroomId: number, studentId: number) => {
@@ -52,7 +52,7 @@ const useEnrollmentApiCall = () => {
       });
     }
   };
-  return { addStudent, removeStudent };
+  return { addStudent, removeStudent, isEnrollmentLoading };
 };
 
 export default useEnrollmentApiCall;

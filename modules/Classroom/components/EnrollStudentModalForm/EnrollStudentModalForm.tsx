@@ -10,11 +10,11 @@ const EnrollStudentModalForm = ({ opened, close, classroomId }: TEnrollStudentMo
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
 
   const { students } = useGetStudentsToEnroll(classroomId);
-  const { addStudent } = useEnrollmentApiCall();
+  const { addStudent, isEnrollmentLoading } = useEnrollmentApiCall();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (selectedStudent) {
-      addStudent(Number(classroomId), Number(selectedStudent));
+      await addStudent(Number(classroomId), Number(selectedStudent));
       close();
     }
   };
@@ -30,6 +30,7 @@ const EnrollStudentModalForm = ({ opened, close, classroomId }: TEnrollStudentMo
         placeholder="Pick student"
         data={students}
         value={selectedStudent}
+        searchable
         onChange={setSelectedStudent}
         styles={{ label: { color: "green" } }}
         dropdownPosition="bottom"
@@ -44,6 +45,7 @@ const EnrollStudentModalForm = ({ opened, close, classroomId }: TEnrollStudentMo
         <Button
           type="submit"
           variant="filled"
+          loading={isEnrollmentLoading}
           sx={{ backgroundColor: "green" }}
           onClick={handleSubmit}
         >
