@@ -10,12 +10,13 @@ import {
 import { useAppDispatch } from "@/shared/redux/hooks";
 import { setCounter } from "@/shared/redux/reducers/counter.reducer";
 import { setUser } from "@/shared/redux/reducers/user.reducer";
-import { useRegisterMutation } from "@/shared/redux/rtk-apis/users/users.api";
+import { useRegisterMutation } from "@/shared/redux/rtk-apis/auth/auth.api";
 import { ERole, IUserDto } from "@/shared/typedefs";
 import { getApiErrorAttemptRemaining, parseApiErrorMessage } from "@/shared/utils/errors";
 import { setInLocalStorage } from "@/shared/utils/localStorage";
 
 import { TTeacherRegistrationFormData } from "../components/TeacherRegistrationForm/TeacherRegistrationForm.types";
+
 
 const useTeacherRegistration = () => {
   const [register] = useRegisterMutation();

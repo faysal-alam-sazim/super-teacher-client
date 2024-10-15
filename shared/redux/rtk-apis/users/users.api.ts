@@ -1,7 +1,7 @@
-import { IUserDto, TApiResponse } from "@/shared/typedefs";
+import { TApiResponse } from "@/shared/typedefs";
 
 import projectApi from "../api.config";
-import { TLoginResponse, TTokenizedUser } from "../auth/auth.types";
+import { TTokenizedUser } from "../auth/auth.types";
 import {
   TResetPasswordDto,
   TUpdateUserDto,
@@ -20,15 +20,6 @@ const usersApi = projectApi.injectEndpoints({
     getStudents: builder.query<TUser[], void>({
       query: () => "users/students",
       transformResponse: (response: TApiResponse<TUser[]>) => response.data,
-    }),
-
-    register: builder.mutation<TLoginResponse, IUserDto>({
-      query: (newUser) => ({
-        url: "users/signup",
-        method: "POST",
-        body: newUser,
-      }),
-      transformResponse: (response: TApiResponse<TLoginResponse>) => response.data,
     }),
 
     getUserProfile: builder.query<TUser, void>({
@@ -70,7 +61,6 @@ const usersApi = projectApi.injectEndpoints({
 export const {
   useMeQuery,
   useLazyMeQuery,
-  useRegisterMutation,
   useGetStudentsQuery,
   useGetUserProfileQuery,
   useUpdateUserMutation,

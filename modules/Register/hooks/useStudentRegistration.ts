@@ -9,7 +9,7 @@ import {
 } from "@/shared/constants/app.constants";
 import { useAppDispatch } from "@/shared/redux/hooks";
 import { setUser } from "@/shared/redux/reducers/user.reducer";
-import { useRegisterMutation } from "@/shared/redux/rtk-apis/users/users.api";
+import { useRegisterMutation } from "@/shared/redux/rtk-apis/auth/auth.api";
 import { ERole, IUserDto } from "@/shared/typedefs";
 import { parseApiErrorMessage } from "@/shared/utils/errors";
 import { setInLocalStorage } from "@/shared/utils/localStorage";
@@ -52,7 +52,7 @@ const useStudentRegistration = () => {
         router.push("/dashboard");
         showNotification({
           title: "Success",
-          message: "Created Successfully",
+          message: "Registered Successfully",
           autoClose: NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS,
           color: "green",
         });
