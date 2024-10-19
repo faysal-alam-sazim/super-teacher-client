@@ -1,4 +1,4 @@
-import { TApiResponse } from "@/shared/typedefs";
+import { IUserDto, TApiResponse } from "@/shared/typedefs";
 
 import projectApi from "../api.config";
 import { TLoginRequestFields, TLoginResponse } from "./auth.types";
@@ -13,8 +13,17 @@ const authApi = projectApi.injectEndpoints({
       }),
       transformResponse: (response: TApiResponse<TLoginResponse>) => response.data,
     }),
+
+    register: builder.mutation<TLoginResponse, IUserDto>({
+      query: (newUser) => ({
+        url: "auth/signup",
+        method: "POST",
+        body: newUser,
+      }),
+      transformResponse: (response: TApiResponse<TLoginResponse>) => response.data,
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useLoginMutation } = authApi;
+export const { useLoginMutation, useRegisterMutation } = authApi;
