@@ -49,7 +49,7 @@ const EnrollStudentModalForm = ({ opened, close, classroomId }: TEnrollStudentMo
           sx={{ backgroundColor: "green" }}
           onClick={handleSubmit}
         >
-          Create
+          Enroll
         </Button>
       </Flex>
     </Modal>

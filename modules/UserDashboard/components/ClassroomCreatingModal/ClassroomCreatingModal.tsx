@@ -24,7 +24,19 @@ const ClassroomCreatingModal = ({ opened, close }: ICreateClassroomModalProps) =
     mode: "onSubmit",
   });
 
-  const { onSubmit } = useClassroomCreation();
+  const { onSubmit, isLoading } = useClassroomCreation();
+
+  const handleCancelBtn = () => {
+    reset();
+    close();
+  };
+
+  const handleSubmitBtn = async (data: TCreateClassroomFormData) => {
+    await onSubmit(data);
+    if (!isLoading) {
+      close();
+    }
+  };
 
   return (
     <>
@@ -32,7 +44,7 @@ const ClassroomCreatingModal = ({ opened, close }: ICreateClassroomModalProps) =
         <Title c={"green"} tt={"uppercase"} size={"lg"} mb={12}>
           Create a classroom
         </Title>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(handleSubmitBtn)}>
           <Flex direction={"column"} gap={14}>
             <Controller
               name="title"
@@ -93,10 +105,10 @@ const ClassroomCreatingModal = ({ opened, close }: ICreateClassroomModalProps) =
               )}
             />
             <Flex justify={"end"} align={"center"} gap={12} mb={10}>
-              <Button bg={"green"} onClick={() => reset()}>
+              <Button bg={"green"} onClick={handleCancelBtn}>
                 Cancel
               </Button>
-              <Button bg={"green"} type="submit">
+              <Button bg={"green"} type="submit" loading={isLoading}>
                 Create
               </Button>
             </Flex>

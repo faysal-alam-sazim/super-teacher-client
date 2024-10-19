@@ -11,7 +11,7 @@ import {
 } from "../components/ClassroomCreatingModal/ClassroomCreatingModal.types";
 
 const useClassroomCreation = () => {
-  const [createClassroom] = useCreateClassroomMutation();
+  const [createClassroom, { isLoading }] = useCreateClassroomMutation();
 
   const onSubmit = async (data: TCreateClassroomFormData) => {
     const classTimeDate = convertTimeToDate(data.classTime);
@@ -40,7 +40,7 @@ const useClassroomCreation = () => {
       });
     }
   };
-  return { onSubmit };
+  return { onSubmit, isLoading };
 };
 
 export default useClassroomCreation;
