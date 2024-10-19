@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import { ActionIcon, Box, Button, FileButton, Flex, Text, Textarea, Title } from "@mantine/core";
 import { FaPaperclip } from "react-icons/fa";
 import { LuX } from "react-icons/lu";
+import { io } from "socket.io-client";
 
-import { useWebsocket } from "@/shared/hooks/useWebsocket";
+import { ACCESS_TOKEN_LOCAL_STORAGE_KEY } from "@/shared/constants/app.constants";
+import { WS_BASE_URL } from "@/shared/constants/env.constants";
 import { useAppSelector } from "@/shared/redux/hooks";
 import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
 import {
@@ -13,6 +15,7 @@ import {
 } from "@/shared/redux/rtk-apis/messages/messages.api";
 import { TCreateMessageDto, TMessage } from "@/shared/redux/rtk-apis/messages/messages.types";
 import { EGatewayIncomingEvent, EGatewayOutgoingEvent } from "@/shared/typedefs";
+import { getFromLocalStorage } from "@/shared/utils/localStorage";
 import { sortArray } from "@/shared/utils/sortArray";
 
 import ChatCard from "../ChatCard/ChatCard";
@@ -36,7 +39,15 @@ const ClassroomChatBox = ({ classroom }: TClassroomChatBoxProps) => {
   const { userId } = useAppSelector(authenticatedUserSelector);
   const { classes } = useClassroomChatBoxStyles();
 
-  const newSocket = useWebsocket({ path: "/ws", shouldAuthenticate: true, autoConnect: true });
+  const accessToken = getFromLocalStorage(ACCESS_TOKEN_LOCAL_STORAGE_KEY);
+
+  const newSocket = io(WS_BASE_URL, {
+    path: "/ws",
+    transports: ["websocket"],
+    auth: {
+      authorization: `Bearer ${accessToken}`,
+    },
+  });
 
   useEffect(() => {
     if (!isLoading) {

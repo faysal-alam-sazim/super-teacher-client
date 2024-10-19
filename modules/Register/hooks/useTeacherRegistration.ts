@@ -17,7 +17,6 @@ import { setInLocalStorage } from "@/shared/utils/localStorage";
 
 import { TTeacherRegistrationFormData } from "../components/TeacherRegistrationForm/TeacherRegistrationForm.types";
 
-
 const useTeacherRegistration = () => {
   const [register] = useRegisterMutation();
   const dispatch = useAppDispatch();
