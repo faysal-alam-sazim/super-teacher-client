@@ -1,6 +1,7 @@
 import { ERole } from "@/shared/typedefs";
 
 export type TMessage = {
+  id: number;
   message: string;
   attachmentUrl?: string;
   sender: {

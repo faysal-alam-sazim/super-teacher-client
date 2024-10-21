@@ -4,7 +4,10 @@ import { FaDownload } from "react-icons/fa";
 import LoadingComponent from "@/shared/components/LoadingComponent";
 import { useAppSelector } from "@/shared/redux/hooks";
 import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
-import { useGetSubmissionsQuery } from "@/shared/redux/rtk-apis/assignment_submissions/assignment-submissions.api";
+import {
+  useGetSubmissionsQuery,
+  useLazyGetSubmissionDownloadUrlQuery,
+} from "@/shared/redux/rtk-apis/assignment_submissions/assignment-submissions.api";
 import { ERole } from "@/shared/typedefs";
 
 import { isPastDueDate } from "./GetAssignmentSubmissionsModal.helper";
@@ -30,8 +33,13 @@ const GetAssignmentSubmissionsModal = ({
     { skip: !classroomId || !assignmentId || claim === ERole.STUDENT },
   );
 
-  const handleOpenFile = (fileUrl: string) => {
-    window.open(fileUrl, "_blank");
+  const [getDownloadUrl, { isLoading: isDownloadLoading }] = useLazyGetSubmissionDownloadUrlQuery();
+
+  const handleOpenFile = async (submissionId: number) => {
+    const downloadUrl = await getDownloadUrl({ classroomId, submissionId }).unwrap();
+    if (!isDownloadLoading) {
+      window.open(downloadUrl, "_blank");
+    }
   };
 
   return (
@@ -59,7 +67,7 @@ const GetAssignmentSubmissionsModal = ({
                     Late
                   </Badge>
                 ) : null}
-                <ActionIcon onClick={() => handleOpenFile(submission.fileUrl)}>
+                <ActionIcon onClick={() => handleOpenFile(submission.id)}>
                   <FaDownload />
                 </ActionIcon>
               </Flex>

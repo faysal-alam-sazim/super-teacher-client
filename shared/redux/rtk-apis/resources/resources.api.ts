@@ -11,6 +11,11 @@ const resourcesApi = projectApi.injectEndpoints({
       transformResponse: (response: TApiResponse<TResource[]>) => response.data,
     }),
 
+    getResourceDownloadUrl: builder.query<string, { classroomId: number; resourceId: number }>({
+      query: ({ classroomId, resourceId }) => `classrooms/${classroomId}/resources/${resourceId}`,
+      transformResponse: (response: TApiResponse<string>) => response.data,
+    }),
+
     addResource: builder.mutation<
       TResource,
       { id: number; newResourceInfo: TAddResourceInfoDto; resourceFile: File }
@@ -80,4 +85,5 @@ export const {
   useAddResourceMutation,
   useUpdateResourceMutation,
   useDeleteResourceMutation,
+  useGetResourceDownloadUrlQuery,
 } = resourcesApi;

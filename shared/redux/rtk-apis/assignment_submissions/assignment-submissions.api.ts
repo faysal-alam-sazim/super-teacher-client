@@ -14,6 +14,12 @@ const assignmentSubmissionsApi = projectApi.injectEndpoints({
       transformResponse: (response: TApiResponse<TSubmission[]>) => response.data,
     }),
 
+    getSubmissionDownloadUrl: builder.query<string, { classroomId: number; submissionId: number }>({
+      query: ({ classroomId, submissionId }) =>
+        `classrooms/${classroomId}/assignments/submissions/${submissionId}`,
+      transformResponse: (response: TApiResponse<string>) => response.data,
+    }),
+
     addSubmission: builder.mutation<
       TSubmission,
       { classroomId: number; assignmentId: number; submissionFile: File }
@@ -37,4 +43,8 @@ const assignmentSubmissionsApi = projectApi.injectEndpoints({
   }),
 });
 
-export const { useGetSubmissionsQuery, useAddSubmissionMutation } = assignmentSubmissionsApi;
+export const {
+  useGetSubmissionsQuery,
+  useAddSubmissionMutation,
+  useLazyGetSubmissionDownloadUrlQuery,
+} = assignmentSubmissionsApi;

@@ -133,7 +133,9 @@ const ClassroomChatBox = ({ classroom }: TClassroomChatBoxProps) => {
       </Box>
       <Box p={12}>
         {messages.length > 0 ? (
-          messages.map((message, idx) => <ChatCard key={idx} message={message} />)
+          messages.map((message, idx) => (
+            <ChatCard key={idx} message={message} classroomId={classroom.id} />
+          ))
         ) : (
           <Flex h={"200px"} justify={"center"} align={"center"}>
             <Title order={3} color="black">

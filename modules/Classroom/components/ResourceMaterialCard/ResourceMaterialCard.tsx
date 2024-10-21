@@ -8,7 +8,10 @@ import DeleteConfirmationModal from "@/shared/components/DeleteConfirmationModal
 import { NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS } from "@/shared/constants/app.constants";
 import { useAppSelector } from "@/shared/redux/hooks";
 import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
-import { useDeleteResourceMutation } from "@/shared/redux/rtk-apis/resources/resources.api";
+import {
+  useDeleteResourceMutation,
+  useGetResourceDownloadUrlQuery,
+} from "@/shared/redux/rtk-apis/resources/resources.api";
 import { ERole } from "@/shared/typedefs";
 import { parseApiErrorMessage } from "@/shared/utils/errors";
 
@@ -25,9 +28,15 @@ const ResourceMaterialCard = ({ resource, classroomId }: TResourceMaterialCardTy
   const { claim } = useAppSelector(authenticatedUserSelector);
   const [deleteResource] = useDeleteResourceMutation();
 
+  const { data: downloadUrl, isLoading: isDownloadLoading } = useGetResourceDownloadUrlQuery({
+    classroomId,
+    resourceId: resource.id,
+  });
+
   const handleOpenFile = () => {
-    // TODO: trigger file download
-    window.open(resource.fileUrl, "_blank");
+    if (!isDownloadLoading) {
+      window.open(downloadUrl, "_blank");
+    }
   };
 
   const handleDelete = async () => {

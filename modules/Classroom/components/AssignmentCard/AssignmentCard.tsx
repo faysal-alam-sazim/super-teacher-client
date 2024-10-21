@@ -10,7 +10,10 @@ import DeleteConfirmationModal from "@/shared/components/DeleteConfirmationModal
 import { NOTIFICATION_AUTO_CLOSE_TIMEOUT_IN_MILLISECONDS } from "@/shared/constants/app.constants";
 import { useAppSelector } from "@/shared/redux/hooks";
 import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
-import { useDeleteAssignmentsMutation } from "@/shared/redux/rtk-apis/assignments/assignments.api";
+import {
+  useDeleteAssignmentsMutation,
+  useGetAssignmentDownloadUrlQuery,
+} from "@/shared/redux/rtk-apis/assignments/assignments.api";
 import { EDateFormat, ERole } from "@/shared/typedefs";
 import { parseApiErrorMessage } from "@/shared/utils/errors";
 
@@ -37,8 +40,15 @@ const AssignmentCard = ({ assignment, classroomId }: TAssignmentCardProps) => {
   const { classes } = useAssignmentCardStyles(assignment.dueDate);
   const { userId, claim } = useAppSelector(authenticatedUserSelector);
 
+  const { data: downloadUrl, isLoading: isDownloadLoading } = useGetAssignmentDownloadUrlQuery({
+    classroomId,
+    assignmentId: assignment.id,
+  });
+
   const handleOpenFile = () => {
-    window.open(assignment.fileUrl, "_blank");
+    if (!isDownloadLoading) {
+      window.open(downloadUrl, "_blank");
+    }
   };
 
   const handleDelete = async () => {

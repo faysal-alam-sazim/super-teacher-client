@@ -7,6 +7,7 @@ import { FaFilePdf } from "react-icons/fa";
 
 import { useAppSelector } from "@/shared/redux/hooks";
 import { authenticatedUserSelector } from "@/shared/redux/reducers/user.reducer";
+import { useLazyGetAttachmentDownloadUrlQuery } from "@/shared/redux/rtk-apis/messages/messages.api";
 import { ERole } from "@/shared/typedefs";
 
 import { useChatStyles } from "./ChatCard.styles";
@@ -14,13 +15,19 @@ import { TChatCardProps } from "./ChatCard.types";
 
 dayjs.extend(relativeTime);
 
-const ChatCard = ({ message }: TChatCardProps) => {
+const ChatCard = ({ message, classroomId }: TChatCardProps) => {
   const { userId } = useAppSelector(authenticatedUserSelector);
   const { classes } = useChatStyles();
   const fullName = message.sender.firstName + " " + message.sender.lastName;
 
-  const handleOpenFile = () => {
-    window.open(message.attachmentUrl, "_blank");
+  const [getDownloadUrl, { isLoading: isDownloadLoading }] = useLazyGetAttachmentDownloadUrlQuery();
+
+  const handleOpenFile = async () => {
+    const downloadUrl = await getDownloadUrl({ classroomId, messageId: message.id }).unwrap();
+
+    if (!isDownloadLoading) {
+      window.open(downloadUrl, "_blank");
+    }
   };
 
   const isTeacher = message?.sender?.role === ERole.TEACHER;

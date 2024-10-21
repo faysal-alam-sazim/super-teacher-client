@@ -11,6 +11,11 @@ const messagesApi = projectApi.injectEndpoints({
       transformResponse: (response: TApiResponse<TMessage[]>) => response.data,
     }),
 
+    getAttachmentDownloadUrl: builder.query<string, { classroomId: number; messageId: number }>({
+      query: ({ classroomId, messageId }) => `classrooms/${classroomId}/messages/${messageId}`,
+      transformResponse: (response: TApiResponse<string>) => response.data,
+    }),
+
     addMessage: builder.mutation<
       TMessage,
       { id: number; newMessage: TCreateMessageDto; attachment: File | null }
@@ -37,4 +42,8 @@ const messagesApi = projectApi.injectEndpoints({
   }),
 });
 
-export const { useGetAllMessagesQuery, useAddMessageMutation } = messagesApi;
+export const {
+  useGetAllMessagesQuery,
+  useAddMessageMutation,
+  useLazyGetAttachmentDownloadUrlQuery,
+} = messagesApi;
