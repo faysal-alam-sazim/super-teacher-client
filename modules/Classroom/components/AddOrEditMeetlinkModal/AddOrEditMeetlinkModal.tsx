@@ -40,10 +40,16 @@ const AddOrEditMeetlinkModal = ({
     }
 
     try {
-      new URL(formattedLink);
+      const url = new URL(formattedLink);
+
+      if (!url.hostname.startsWith("meet.google.com")) {
+        return setValidationMessage("URL must start with 'meet.google.com'");
+      }
     } catch (error) {
       return setValidationMessage("Please insert a valid URL");
     }
+
+    setValidationMessage("");
 
     const updatedClassroom: TEditClassroomDto = {
       meetLink: formattedLink,
