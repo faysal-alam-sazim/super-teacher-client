@@ -40,6 +40,7 @@ const Students = ({ students, classroomId }: IStudentsProps) => {
           <FaRegPlusSquare color="green" onClick={openEnrollModal} style={{ cursor: "pointer" }} />
         ) : null}
       </Flex>
+      {students?.length === 0 ? <Text fz={"sm"}>No student is enrolled</Text> : null}
       {students?.map((student) => (
         <Flex key={student.id} justify={"space-between"}>
           <Text fz={"sm"}>
