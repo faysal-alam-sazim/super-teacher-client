@@ -9,9 +9,21 @@ const StudentRegistrationSchema = z
     lastName: z.string().min(1, "Last Name is required"),
     gender: z.enum([EGender.MALE, EGender.FEMALE]),
     address: z.string().min(1, "Address is required"),
-    phoneNumber: z.string().min(1, "Phone Number is required"),
+    phoneNumber: z
+      .string()
+      .min(1, "Phone Number is required")
+      .regex(
+        /^\+880\d{9}$/,
+        "Phone Number must start with +880 and contain exactly 9 digits after the country code",
+      ),
     email: z.string().email("Invalid email address"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
+    password: z
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+        "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+      ),
     confirmPassword: z.string().min(6, "Confirm Password is required"),
     educationLevel: z.enum([
       EEducationLevel.SCHOOL,

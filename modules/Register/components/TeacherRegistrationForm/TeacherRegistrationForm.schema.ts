@@ -18,7 +18,13 @@ const TeacherRegistrationSchema = z
     ]),
     subjectsToTeach: z.array(z.string()).min(1, "Subjects to Teach is required"),
     email: z.string().email("Invalid email address"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
+    password: z
+      .string()
+      .min(6, "Password must be at least 6 characters")
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/,
+        "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+      ),
     confirmPassword: z.string().min(6, "Confirm Password is required"),
   })
   .refine((data) => data.password === data.confirmPassword, {

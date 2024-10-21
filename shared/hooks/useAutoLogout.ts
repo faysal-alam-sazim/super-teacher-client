@@ -30,7 +30,7 @@ const useAutoLogout = () => {
     if (accessToken) {
       localStorage.clear();
       dispatch(clearUser());
-      router.push("/login");
+      router.reload();
 
       showNotification({
         title: "Logged Out",
